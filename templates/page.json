@@ -1,13 +1,109 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
+    "blocks_YKzcH8": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_868255b_qgdKUP": {
+          "type": "ai_gen_block_868255b",
+          "settings": {
+            "hide_page_title": true,
+            "container_width": 1400,
+            "section_spacing": 100,
+            "hero_heading": "About Us",
+            "hero_description": "<p>We're passionate about creating exceptional products and experiences that make a difference in people's lives.</p>",
+            "hero_text_align": "center",
+            "hero_bg_color": "#0a0e27",
+            "hero_heading_color": "#ffffff",
+            "hero_description_color": "#e0e0e0",
+            "hero_heading_size": 64,
+            "hero_description_size": 20,
+            "hero_padding_top": 120,
+            "hero_padding_bottom": 120,
+            "show_story_section": true,
+            "story_heading": "Our Story",
+            "story_text": "<p>Founded with a vision to revolutionize the industry, our journey began with a simple idea and a commitment to excellence. Over the years, we've grown into a trusted brand, serving thousands of satisfied customers worldwide.</p>",
+            "story_text_align": "left",
+            "show_mission_section": true,
+            "mission_heading": "Our Mission",
+            "mission_text": "<p>Our mission is to deliver innovative solutions that empower our customers to achieve their goals. We believe in quality, sustainability, and creating lasting value for everyone we serve.</p>",
+            "show_values_section": true,
+            "values_heading": "Our Values",
+            "values_text_align": "center",
+            "value_1_title": "Innovation",
+            "value_1_description": "<p>We constantly push boundaries and embrace new ideas to stay ahead of the curve.</p>",
+            "value_2_title": "Quality",
+            "value_2_description": "<p>Excellence is at the heart of everything we do, from product design to customer service.</p>",
+            "value_3_title": "Integrity",
+            "value_3_description": "<p>We build trust through transparency, honesty, and ethical business practices.</p>",
+            "value_4_title": "Sustainability",
+            "value_4_description": "<p>We're committed to protecting our planet for future generations.</p>",
+            "show_team_section": true,
+            "team_heading": "Meet Our Team",
+            "team_text_align": "center",
+            "team_image_border_radius": 20,
+            "team_1_name": "Sarah Johnson",
+            "team_1_role": "Founder & CEO",
+            "team_1_bio": "Visionary leader with 15+ years of industry experience.",
+            "team_2_name": "Michael Chen",
+            "team_2_role": "Chief Technology Officer",
+            "team_2_bio": "Tech innovator passionate about building scalable solutions.",
+            "team_3_name": "Emily Rodriguez",
+            "team_3_role": "Head of Design",
+            "team_3_bio": "Creative director with an eye for beautiful, functional design.",
+            "team_4_name": "",
+            "team_4_role": "",
+            "team_4_bio": "",
+            "team_5_name": "",
+            "team_5_role": "",
+            "team_5_bio": "",
+            "team_6_name": "",
+            "team_6_role": "",
+            "team_6_bio": "",
+            "content_bg_color": "#ffffff",
+            "section_heading_color": "#0a0e27",
+            "body_text_color": "#4a4a4a",
+            "team_role_color": "#d4af37",
+            "card_bg_color": "#f8f8f8",
+            "card_title_color": "#0a0e27",
+            "card_border_radius": 20,
+            "card_shadow_enabled": true,
+            "section_heading_size": 44,
+            "card_title_size": 24,
+            "body_text_size": 17,
+            "team_name_size": 22,
+            "team_role_size": 15,
+            "content_padding_top": 100,
+            "content_padding_bottom": 100
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_868255b_qgdKUP"
+      ],
+      "name": "About page",
+      "settings": {}
+    },
     "main": {
       "type": "main-page",
+      "disabled": true,
       "settings": {
         "padding_top": 60,
         "padding_bottom": 60
       }
     }
   },
-  "order": ["main"]
+  "order": [
+    "blocks_YKzcH8",
+    "main"
+  ]
 }
-
