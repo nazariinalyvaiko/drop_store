@@ -1,6 +1,732 @@
+{% doc %}
+  @prompt
+    Create a beautiful, modern price filter with range sliders for a collection page. The filter should have: dual range sliders for minimum and maximum price selection, smooth animations, premium design with elegant styling, real-time price display as user moves sliders, clean minimalist interface that matches a premium brand aesthetic, and responsive design. Make it visually appealing with modern UI elements instead of basic dropdown menus.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-price-filter-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    padding: {{ block.settings.padding }}px;
+    background: {{ block.settings.background_color }};
+    border-radius: {{ block.settings.border_radius }}px;
+    box-shadow: {{ block.settings.shadow_intensity }}px {{ block.settings.shadow_intensity | times: 2 }}px {{ block.settings.shadow_intensity | times: 3 }}px rgba(0, 0, 0, {{ block.settings.shadow_opacity }});
+  }
+
+  .ai-price-filter__header-{{ ai_gen_id }} {
+    margin-bottom: 24px;
+  }
+
+  .ai-price-filter__title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.title_size }}px;
+    font-weight: 600;
+    color: {{ block.settings.text_color }};
+    margin: 0 0 8px 0;
+  }
+
+  .ai-price-filter__subtitle-{{ ai_gen_id }} {
+    font-size: {{ block.settings.subtitle_size }}px;
+    color: {{ block.settings.subtitle_color }};
+    margin: 0;
+  }
+
+  .ai-price-filter__display-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+    gap: 16px;
+  }
+
+  .ai-price-filter__price-box-{{ ai_gen_id }} {
+    flex: 1;
+    padding: 16px 20px;
+    background: {{ block.settings.price_box_bg }};
+    border: 2px solid {{ block.settings.price_box_border }};
+    border-radius: {{ block.settings.price_box_radius }}px;
+    text-align: center;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .ai-price-filter__price-box-{{ ai_gen_id }}:hover {
+    border-color: {{ block.settings.accent_color }};
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .ai-price-filter__price-label-{{ ai_gen_id }} {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: {{ block.settings.label_color }};
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+
+  .ai-price-filter__price-value-{{ ai_gen_id }} {
+    font-size: {{ block.settings.price_size }}px;
+    font-weight: 700;
+    color: {{ block.settings.accent_color }};
+    font-variant-numeric: tabular-nums;
+  }
+
+  .ai-price-filter__separator-{{ ai_gen_id }} {
+    font-size: 20px;
+    color: {{ block.settings.subtitle_color }};
+    font-weight: 300;
+  }
+
+  .ai-price-filter__slider-container-{{ ai_gen_id }} {
+    position: relative;
+    margin-bottom: 40px;
+    padding: 0 8px;
+  }
+
+  .ai-price-filter__track-{{ ai_gen_id }} {
+    position: relative;
+    height: {{ block.settings.track_height }}px;
+    background: {{ block.settings.track_bg }};
+    border-radius: {{ block.settings.track_height | divided_by: 2 }}px;
+    overflow: hidden;
+  }
+
+  .ai-price-filter__range-{{ ai_gen_id }} {
+    position: absolute;
+    height: 100%;
+    background: linear-gradient(90deg, {{ block.settings.accent_color }}, {{ block.settings.accent_secondary }});
+    border-radius: {{ block.settings.track_height | divided_by: 2 }}px;
+    transition: all 0.2s ease;
+  }
+
+  .ai-price-filter__inputs-{{ ai_gen_id }} {
+    position: relative;
+    margin-top: -{{ block.settings.track_height | divided_by: 2 }}px;
+  }
+
+  .ai-price-filter__input-{{ ai_gen_id }} {
+    position: absolute;
+    width: 100%;
+    height: {{ block.settings.track_height }}px;
+    background: transparent;
+    pointer-events: none;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+
+  .ai-price-filter__input-{{ ai_gen_id }}::-webkit-slider-thumb {
+    appearance: none;
+    -webkit-appearance: none;
+    width: {{ block.settings.thumb_size }}px;
+    height: {{ block.settings.thumb_size }}px;
+    background: {{ block.settings.thumb_color }};
+    border: {{ block.settings.thumb_border_width }}px solid {{ block.settings.accent_color }};
+    border-radius: 50%;
+    cursor: pointer;
+    pointer-events: auto;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .ai-price-filter__input-{{ ai_gen_id }}::-webkit-slider-thumb:hover {
+    transform: scale(1.15);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  }
+
+  .ai-price-filter__input-{{ ai_gen_id }}::-webkit-slider-thumb:active {
+    transform: scale(1.05);
+  }
+
+  .ai-price-filter__input-{{ ai_gen_id }}::-moz-range-thumb {
+    width: {{ block.settings.thumb_size }}px;
+    height: {{ block.settings.thumb_size }}px;
+    background: {{ block.settings.thumb_color }};
+    border: {{ block.settings.thumb_border_width }}px solid {{ block.settings.accent_color }};
+    border-radius: 50%;
+    cursor: pointer;
+    pointer-events: auto;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .ai-price-filter__input-{{ ai_gen_id }}::-moz-range-thumb:hover {
+    transform: scale(1.15);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  }
+
+  .ai-price-filter__input-{{ ai_gen_id }}::-moz-range-thumb:active {
+    transform: scale(1.05);
+  }
+
+  .ai-price-filter__actions-{{ ai_gen_id }} {
+    display: flex;
+    gap: 12px;
+  }
+
+  .ai-price-filter__button-{{ ai_gen_id }} {
+    flex: 1;
+    padding: 14px 24px;
+    font-size: {{ block.settings.button_text_size }}px;
+    font-weight: 600;
+    border: none;
+    border-radius: {{ block.settings.button_radius }}px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .ai-price-filter__button--primary-{{ ai_gen_id }} {
+    background: {{ block.settings.button_bg }};
+    color: {{ block.settings.button_text }};
+  }
+
+  .ai-price-filter__button--primary-{{ ai_gen_id }}:hover {
+    background: {{ block.settings.button_hover_bg }};
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  }
+
+  .ai-price-filter__button--secondary-{{ ai_gen_id }} {
+    background: transparent;
+    color: {{ block.settings.text_color }};
+    border: 2px solid {{ block.settings.price_box_border }};
+  }
+
+  .ai-price-filter__button--secondary-{{ ai_gen_id }}:hover {
+    border-color: {{ block.settings.accent_color }};
+    color: {{ block.settings.accent_color }};
+    transform: translateY(-2px);
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-price-filter-{{ ai_gen_id }} {
+      padding: {{ block.settings.padding | times: 0.75 }}px;
+    }
+
+    .ai-price-filter__title-{{ ai_gen_id }} {
+      font-size: {{ block.settings.title_size | times: 0.85 }}px;
+    }
+
+    .ai-price-filter__price-value-{{ ai_gen_id }} {
+      font-size: {{ block.settings.price_size | times: 0.85 }}px;
+    }
+
+    .ai-price-filter__display-{{ ai_gen_id }} {
+      margin-bottom: 24px;
+    }
+
+    .ai-price-filter__slider-container-{{ ai_gen_id }} {
+      margin-bottom: 32px;
+    }
+  }
+{% endstyle %}
+
+<price-filter-{{ ai_gen_id }} class="ai-price-filter-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-price-filter__header-{{ ai_gen_id }}">
+    {% if block.settings.title != blank %}
+      <h3 class="ai-price-filter__title-{{ ai_gen_id }}">{{ block.settings.title }}</h3>
+    {% endif %}
+    {% if block.settings.subtitle != blank %}
+      <p class="ai-price-filter__subtitle-{{ ai_gen_id }}">{{ block.settings.subtitle }}</p>
+    {% endif %}
+  </div>
+
+  <div class="ai-price-filter__display-{{ ai_gen_id }}">
+    <div class="ai-price-filter__price-box-{{ ai_gen_id }}">
+      <div class="ai-price-filter__price-label-{{ ai_gen_id }}">{{ block.settings.min_label }}</div>
+      <div class="ai-price-filter__price-value-{{ ai_gen_id }}" data-min-display>
+        {{ block.settings.currency_symbol }}{{ block.settings.min_price }}
+      </div>
+    </div>
+    <span class="ai-price-filter__separator-{{ ai_gen_id }}">—</span>
+    <div class="ai-price-filter__price-box-{{ ai_gen_id }}">
+      <div class="ai-price-filter__price-label-{{ ai_gen_id }}">{{ block.settings.max_label }}</div>
+      <div class="ai-price-filter__price-value-{{ ai_gen_id }}" data-max-display>
+        {{ block.settings.currency_symbol }}{{ block.settings.max_price }}
+      </div>
+    </div>
+  </div>
+
+  <div class="ai-price-filter__slider-container-{{ ai_gen_id }}">
+    <div class="ai-price-filter__track-{{ ai_gen_id }}">
+      <div class="ai-price-filter__range-{{ ai_gen_id }}" data-range></div>
+    </div>
+    <div class="ai-price-filter__inputs-{{ ai_gen_id }}">
+      <input
+        type="range"
+        class="ai-price-filter__input-{{ ai_gen_id }}"
+        data-min-input
+        min="{{ block.settings.min_price }}"
+        max="{{ block.settings.max_price }}"
+        value="{{ block.settings.min_price }}"
+        step="{{ block.settings.step }}"
+        aria-label="Minimum price"
+      >
+      <input
+        type="range"
+        class="ai-price-filter__input-{{ ai_gen_id }}"
+        data-max-input
+        min="{{ block.settings.min_price }}"
+        max="{{ block.settings.max_price }}"
+        value="{{ block.settings.max_price }}"
+        step="{{ block.settings.step }}"
+        aria-label="Maximum price"
+      >
+    </div>
+  </div>
+
+  <div class="ai-price-filter__actions-{{ ai_gen_id }}">
+    <button
+      type="button"
+      class="ai-price-filter__button-{{ ai_gen_id }} ai-price-filter__button--primary-{{ ai_gen_id }}"
+      data-apply
+    >
+      {{ block.settings.apply_button_text }}
+    </button>
+    <button
+      type="button"
+      class="ai-price-filter__button-{{ ai_gen_id }} ai-price-filter__button--secondary-{{ ai_gen_id }}"
+      data-reset
+    >
+      {{ block.settings.reset_button_text }}
+    </button>
+  </div>
+</price-filter-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class PriceFilter{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+        this.minInput = this.querySelector('[data-min-input]');
+        this.maxInput = this.querySelector('[data-max-input]');
+        this.minDisplay = this.querySelector('[data-min-display]');
+        this.maxDisplay = this.querySelector('[data-max-display]');
+        this.range = this.querySelector('[data-range]');
+        this.applyButton = this.querySelector('[data-apply]');
+        this.resetButton = this.querySelector('[data-reset]');
+        
+        this.minPrice = parseInt(this.minInput.min);
+        this.maxPrice = parseInt(this.minInput.max);
+        this.currencySymbol = '{{ block.settings.currency_symbol }}';
+      }
+
+      connectedCallback() {
+        this.minInput.addEventListener('input', () => this.handleMinChange());
+        this.maxInput.addEventListener('input', () => this.handleMaxChange());
+        this.applyButton.addEventListener('click', () => this.applyFilter());
+        this.resetButton.addEventListener('click', () => this.resetFilter());
+        
+        this.updateRange();
+      }
+
+      handleMinChange() {
+        const minVal = parseInt(this.minInput.value);
+        const maxVal = parseInt(this.maxInput.value);
+        
+        if (minVal >= maxVal) {
+          this.minInput.value = maxVal - {{ block.settings.step }};
+        }
+        
+        this.updateDisplay();
+        this.updateRange();
+      }
+
+      handleMaxChange() {
+        const minVal = parseInt(this.minInput.value);
+        const maxVal = parseInt(this.maxInput.value);
+        
+        if (maxVal <= minVal) {
+          this.maxInput.value = minVal + {{ block.settings.step }};
+        }
+        
+        this.updateDisplay();
+        this.updateRange();
+      }
+
+      updateDisplay() {
+        const minVal = parseInt(this.minInput.value);
+        const maxVal = parseInt(this.maxInput.value);
+        
+        this.minDisplay.textContent = this.currencySymbol + minVal.toLocaleString();
+        this.maxDisplay.textContent = this.currencySymbol + maxVal.toLocaleString();
+      }
+
+      updateRange() {
+        const minVal = parseInt(this.minInput.value);
+        const maxVal = parseInt(this.maxInput.value);
+        const range = this.maxPrice - this.minPrice;
+        
+        const leftPercent = ((minVal - this.minPrice) / range) * 100;
+        const rightPercent = ((this.maxPrice - maxVal) / range) * 100;
+        
+        this.range.style.left = leftPercent + '%';
+        this.range.style.right = rightPercent + '%';
+      }
+
+      applyFilter() {
+        const minVal = parseInt(this.minInput.value);
+        const maxVal = parseInt(this.maxInput.value);
+        
+        const url = new URL(window.location.href);
+        url.searchParams.set('filter.v.price.gte', minVal);
+        url.searchParams.set('filter.v.price.lte', maxVal);
+        
+        window.location.href = url.toString();
+      }
+
+      resetFilter() {
+        this.minInput.value = this.minPrice;
+        this.maxInput.value = this.maxPrice;
+        
+        this.updateDisplay();
+        this.updateRange();
+        
+        const url = new URL(window.location.href);
+        url.searchParams.delete('filter.v.price.gte');
+        url.searchParams.delete('filter.v.price.lte');
+        
+        window.location.href = url.toString();
+      }
+    }
+
+    customElements.define('price-filter-{{ ai_gen_id }}', PriceFilter{{ ai_gen_id }});
+  })();
+</script>
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "Price filter",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "Filter by Price"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Select your price range"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "min_label",
+      "label": "Minimum label",
+      "default": "Min"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "max_label",
+      "label": "Maximum label",
+      "default": "Max"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "apply_button_text",
+      "label": "Apply button text",
+      "default": "Apply Filter"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "reset_button_text",
+      "label": "Reset button text",
+      "default": "Reset"
+    },
+    {
+      "type": "header",
+      "content": "Price range"
+    },
+    {
+      "type": "range",
+      "id": "min_price",
+      "label": "Minimum price",
+      "min": 0,
+      "max": 500,
+      "step": 10,
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "max_price",
+      "label": "Maximum price",
+      "min": 100,
+      "max": 5000,
+      "step": 100,
+      "default": 1000
+    },
+    {
+      "type": "range",
+      "id": "step",
+      "label": "Step increment",
+      "min": 1,
+      "max": 100,
+      "step": 1,
+      "default": 10
+    },
+    {
+      "type": "text",
+      "id": "currency_symbol",
+      "label": "Currency symbol",
+      "default": "₴"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "range",
+      "id": "padding",
+      "label": "Padding",
+      "min": 10,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "shadow_intensity",
+      "label": "Shadow intensity",
+      "min": 0,
+      "max": 10,
+      "step": 1,
+      "unit": "px",
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "shadow_opacity",
+      "label": "Shadow opacity",
+      "min": 0,
+      "max": 0.5,
+      "step": 0.1,
+      "default": 0.1
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "subtitle_color",
+      "label": "Subtitle",
+      "default": "#666666"
+    },
+    {
+      "type": "color",
+      "id": "label_color",
+      "label": "Labels",
+      "default": "#999999"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent",
+      "default": "#F97316"
+    },
+    {
+      "type": "color",
+      "id": "accent_secondary",
+      "label": "Accent secondary",
+      "default": "#FB923C"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "label": "Title size",
+      "min": 14,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size",
+      "label": "Subtitle size",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "price_size",
+      "label": "Price size",
+      "min": 16,
+      "max": 36,
+      "step": 2,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "button_text_size",
+      "label": "Button text size",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 13
+    },
+    {
+      "type": "header",
+      "content": "Price boxes"
+    },
+    {
+      "type": "color",
+      "id": "price_box_bg",
+      "label": "Background",
+      "default": "#F9FAFB"
+    },
+    {
+      "type": "color",
+      "id": "price_box_border",
+      "label": "Border",
+      "default": "#E5E7EB"
+    },
+    {
+      "type": "range",
+      "id": "price_box_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Slider"
+    },
+    {
+      "type": "range",
+      "id": "track_height",
+      "label": "Track height",
+      "min": 4,
+      "max": 12,
+      "step": 2,
+      "unit": "px",
+      "default": 6
+    },
+    {
+      "type": "color",
+      "id": "track_bg",
+      "label": "Track background",
+      "default": "#E5E7EB"
+    },
+    {
+      "type": "range",
+      "id": "thumb_size",
+      "label": "Thumb size",
+      "min": 16,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 22
+    },
+    {
+      "type": "color",
+      "id": "thumb_color",
+      "label": "Thumb color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "thumb_border_width",
+      "label": "Thumb border width",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "unit": "px",
+      "default": 3
+    },
+    {
+      "type": "header",
+      "content": "Buttons"
+    },
+    {
+      "type": "color",
+      "id": "button_bg",
+      "label": "Primary background",
+      "default": "#F97316"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_bg",
+      "label": "Primary hover background",
+      "default": "#EA580C"
+    },
+    {
+      "type": "color",
+      "id": "button_text",
+      "label": "Primary text",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "button_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    }
+  ],
+  "presets": [
+    {
+      "name": "Price filter"
+    }
+  ]
+}
 {% endschema %}
