@@ -221,54 +221,6 @@
     },
     "1767379131f968952a": {
       "type": "_blocks",
-      "blocks": {
-        "ai_gen_block_87145ed_kiYjKP": {
-          "type": "ai_gen_block_87145ed",
-          "settings": {
-            "title": "Filter by Price",
-            "subtitle": "Select your price range",
-            "min_label": "Min",
-            "max_label": "Max",
-            "apply_button_text": "Apply Filter",
-            "reset_button_text": "Reset",
-            "min_price": 0,
-            "max_price": 1000,
-            "step": 10,
-            "currency_symbol": "₴",
-            "padding": 30,
-            "border_radius": 16,
-            "shadow_intensity": 2,
-            "shadow_opacity": 0.1,
-            "background_color": "#FFFFFF",
-            "text_color": "#000000",
-            "subtitle_color": "#666666",
-            "label_color": "#999999",
-            "accent_color": "#F97316",
-            "accent_secondary": "#FB923C",
-            "title_size": 20,
-            "subtitle_size": 14,
-            "price_size": 24,
-            "button_text_size": 13,
-            "price_box_bg": "#F9FAFB",
-            "price_box_border": "#E5E7EB",
-            "price_box_radius": 12,
-            "track_height": 6,
-            "track_bg": "#E5E7EB",
-            "thumb_size": 22,
-            "thumb_color": "#FFFFFF",
-            "thumb_border_width": 3,
-            "button_bg": "#F97316",
-            "button_hover_bg": "#EA580C",
-            "button_text": "#FFFFFF",
-            "button_radius": 10,
-            "desktop_width_percent": 100
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "ai_gen_block_87145ed_kiYjKP"
-      ],
       "settings": {}
     }
   },
