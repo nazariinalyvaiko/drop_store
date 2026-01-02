@@ -7,18 +7,19 @@
     <!-- Header -->
     <div class="search-page__header">
       <!-- Removed section divider label: SEARCH -->
-      
-      <h1 class="search-page__title">
-        {%- if search.performed -%}
-          {%- if search.results_count == 0 -%}
-            No results for "{{ search.terms }}"
+      {%- if section.settings.show_heading -%}
+        <h1 class="search-page__title">
+          {%- if search.performed -%}
+            {%- if search.results_count == 0 -%}
+              No results for "{{ search.terms }}"
+            {%- else -%}
+              {{ search.results_count }} results for "{{ search.terms }}"
+            {%- endif -%}
           {%- else -%}
-            {{ search.results_count }} results for "{{ search.terms }}"
+            Search
           {%- endif -%}
-        {%- else -%}
-          Search
-        {%- endif -%}
-      </h1>
+        </h1>
+      {%- endif -%}
     </div>
 
     <!-- Search Form -->
@@ -245,6 +246,12 @@
   "name": "Search Results",
   "settings": [
     {
+      "type": "checkbox",
+      "id": "show_heading",
+      "label": "Show heading",
+      "default": true
+    },
+    {
       "type": "range",
       "id": "products_per_page",
       "min": 4,
@@ -256,4 +263,3 @@
   ]
 }
 {% endschema %}
-

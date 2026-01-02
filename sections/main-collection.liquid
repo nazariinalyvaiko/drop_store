@@ -8,9 +8,11 @@
     <div class="collection-page__header">
       <!-- Removed section divider label: COLLECTION -->
       
-      <h1 class="collection-page__title">
-        {{ collection.title }}
-      </h1>
+      {%- if section.settings.show_heading -%}
+        <h1 class="collection-page__title">
+          {{ collection.title }}
+        </h1>
+      {%- endif -%}
       
       <!-- Product count divider hidden on collection pages -->
     </div>
@@ -248,6 +250,12 @@
   "tag": "section",
   "class": "section-main-collection",
   "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_heading",
+      "label": "Show heading",
+      "default": true
+    },
     {
       "type": "range",
       "id": "products_per_page",
