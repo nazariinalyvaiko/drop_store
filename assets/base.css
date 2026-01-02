@@ -4,6 +4,9 @@
    CSS Variables
 ======================================== */
 :root {
+  /* Base scale - 150% larger */
+  --base-font-size: 24px;
+  
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 255, 255, 255;
   --background-end-rgb: 255, 255, 255;
@@ -14,6 +17,9 @@
   --transition-fast: 0.2s ease;
   --transition-medium: 0.3s ease;
   --transition-slow: 0.5s ease;
+  
+  /* Increased page width */
+  --page-width: 1600px;
 }
 
 /* ========================================
@@ -34,7 +40,16 @@ body {
 }
 
 html {
+  /* 150% scale: 16px * 1.5 = 24px base */
+  font-size: var(--base-font-size, 24px);
   scroll-behavior: smooth;
+}
+
+@media (max-width: 768px) {
+  html {
+    /* Slightly smaller on mobile but still larger than default */
+    font-size: 20px;
+  }
 }
 
 body {
@@ -91,20 +106,26 @@ video {
 ======================================== */
 .container {
   width: 100%;
-  max-width: var(--page-width, 1200px);
+  max-width: var(--page-width, 1600px);
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 0 1.5rem;
 }
 
 @media (min-width: 640px) {
   .container {
-    padding: 0 1.5rem;
+    padding: 0 2rem;
   }
 }
 
 @media (min-width: 1024px) {
   .container {
-    padding: 0 2rem;
+    padding: 0 3rem;
+  }
+}
+
+@media (min-width: 1400px) {
+  .container {
+    padding: 0 4rem;
   }
 }
 

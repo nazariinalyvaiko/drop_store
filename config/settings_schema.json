@@ -115,14 +115,47 @@
     "name": "Layout",
     "settings": [
       {
+        "type": "header",
+        "content": "Global Scale"
+      },
+      {
+        "type": "range",
+        "id": "global_scale",
+        "min": 100,
+        "max": 200,
+        "step": 10,
+        "default": 150,
+        "unit": "%",
+        "label": "Global scale",
+        "info": "Scales all elements. 100% = default, 150% = 50% larger"
+      },
+      {
+        "type": "header",
+        "content": "Page Width"
+      },
+      {
         "type": "range",
         "id": "page_width",
-        "min": 1000,
-        "max": 1600,
+        "min": 1200,
+        "max": 2000,
         "step": 100,
-        "default": 1200,
+        "default": 1600,
         "unit": "px",
         "label": "Page width"
+      },
+      {
+        "type": "header",
+        "content": "Spacing"
+      },
+      {
+        "type": "range",
+        "id": "section_spacing",
+        "min": 20,
+        "max": 100,
+        "step": 10,
+        "default": 60,
+        "unit": "px",
+        "label": "Section spacing"
       }
     ]
   },
