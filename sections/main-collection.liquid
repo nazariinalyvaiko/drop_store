@@ -37,17 +37,16 @@
             {%- endfor -%}
 
             <div class="price-filter">
-              <label class="price-filter__label">Price</label>
               <div class="price-filter__values">
                 <span id="min-price">{{ min_price | money }}</span>
                 -
                 <span id="max-price">{{ max_price | money }}</span>
               </div>
-              <input type="range" id="price-range"
-                     min="{{ min_price }}"
-                     max="{{ max_price }}"
-                     value="{{ max_price }}"
-                     step="1" />
+              <div class="slider-container">
+                <input type="range" id="price-min" min="{{ min_price }}" max="{{ max_price }}" value="{{ min_price }}" step="1">
+                <input type="range" id="price-max" min="{{ min_price }}" max="{{ max_price }}" value="{{ max_price }}" step="1">
+                <div class="slider-track"></div>
+              </div>
             </div>
           </div>
         {%- endif -%}
@@ -107,274 +106,145 @@
 </section>
 
 {% style %}
-  .collection-page {
-    padding: 3rem 0;
-  }
+.collection-page__filters {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 2rem;
+}
 
-  .collection-page__header {
-    margin-bottom: 3rem;
-  }
+.price-filter__values {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  color: rgba(0,0,0,0.7);
+}
 
-  .collection-page__title {
-    text-align: center;
-    font-size: 1.875rem;
-    font-family: 'Space Grotesk', monospace;
-    font-weight: 300;
-    color: #000;
-    letter-spacing: 0.1em;
-    line-height: 1;
-    padding: 2rem 0;
-  }
+.slider-container {
+  position: relative;
+  width: 70%; /* можна збільшити ширину */
+  height: 10px;
+  margin: 0 auto;
+}
 
-  @media (min-width: 768px) {
-    .collection-page__title {
-      font-size: 2.25rem;
-    }
-  }
+.slider-container input[type=range] {
+  position: absolute;
+  width: 100%;
+  height: 10px;
+  pointer-events: none;
+  -webkit-appearance: none;
+  background: transparent;
+}
 
-  .collection-page__description {
-    max-width: 40rem;
-    margin: 0 auto 3rem;
-    text-align: center;
-    font-size: 1rem;
-    color: rgba(0, 0, 0, 0.6);
-    line-height: 1.7;
-    font-weight: 300;
-  }
+.slider-container input[type=range]::-webkit-slider-thumb {
+  pointer-events: all;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #000;
+  border: none;
+  -webkit-appearance: none;
+}
 
-  .collection-page__toolbar {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 1rem;
-    margin-bottom: 2rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  }
+.slider-container input[type=range]::-moz-range-thumb {
+  pointer-events: all;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #000;
+  border: none;
+}
 
-  .collection-page__sort {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
+.slider-track {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 6px;
+  width: 100%;
+  border-radius: 3px;
+  background: rgba(0,0,0,0.1);
+  z-index: 0;
+}
 
-  .collection-page__sort-label {
-    font-size: 0.8125rem;
-    font-family: 'Space Grotesk', monospace;
-    color: rgba(0, 0, 0, 0.7);
-    font-weight: 300;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-  }
-
-  .collection-page__sort-select {
-    padding: 0.625rem 2.5rem 0.625rem 1rem;
-    font-size: 0.8125rem;
-    font-family: 'Inter', sans-serif;
-    font-weight: 400;
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    background: #fff url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="8" viewBox="0 0 12 8"><path fill="%23000" d="M6 8L0 0h12z"/></svg>') no-repeat right 0.75rem center;
-    background-size: 12px 8px;
-    cursor: pointer;
-    color: rgba(0, 0, 0, 0.8);
-    appearance: none;
-    transition: all 0.2s ease;
-  }
-
-  .collection-page__sort-select:hover {
-    border-color: rgba(0, 0, 0, 0.4);
-    background-color: #f9f9f9;
-  }
-
-  .collection-page__sort-select:focus {
-    outline: none;
-    border-color: rgba(0, 0, 0, 0.6);
-    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.05);
-  }
-
-  .collection-page__grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-
-  @media (min-width: 640px) {
-    .collection-page__grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
-  @media (min-width: 1024px) {
-    .collection-page__grid {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
-
-  .collection-page__pagination {
-    margin-top: 3rem;
-    padding-top: 2rem;
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
-  }
-
-  .pagination {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 2rem;
-  }
-
-  .pagination__link {
-    font-size: 0.875rem;
-    color: rgba(0, 0, 0, 0.6);
-    text-decoration: none;
-    font-weight: 300;
-    transition: color 0.3s ease;
-  }
-
-  .pagination__link:hover {
-    color: #000;
-  }
-
-  .pagination__current {
-    font-size: 0.875rem;
-    font-family: 'Space Grotesk', monospace;
-    color: rgba(0, 0, 0, 0.4);
-  }
-
-  .collection-page__empty {
-    text-align: center;
-    padding: 4rem 0;
-    color: rgba(0, 0, 0, 0.5);
-  }
-
-  /* Price Filter Styles */
-  .price-filter {
-    text-align: center;
-    margin-bottom: 2rem;
-    width: 100%;
-  }
-
-  .price-filter__label {
-    display: block;
-    font-family: 'Space Grotesk', monospace;
-    font-weight: 300;
-    letter-spacing: 0.05em;
-    margin-bottom: 0.5rem;
-    color: rgba(0,0,0,0.7);
-    text-transform: uppercase;
-  }
-
-  .price-filter__values {
-    font-family: 'Inter', sans-serif;
-    font-weight: 400;
-    color: rgba(0,0,0,0.6);
-    margin-bottom: 0.5rem;
-  }
-
-  #price-range {
-    -webkit-appearance: none;
-    width: 80%;
-    height: 6px;
-    background: rgba(0,0,0,0.1);
-    border-radius: 3px;
-    outline: none;
-    margin: 0 auto;
-    display: block;
-  }
-
-  #price-range::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 18px;
-    height: 18px;
-    background: #000;
-    border-radius: 50%;
-    cursor: pointer;
-    border: none;
-  }
-
-  #price-range::-moz-range-thumb {
-    width: 18px;
-    height: 18px;
-    background: #000;
-    border-radius: 50%;
-    cursor: pointer;
-    border: none;
-  }
+.slider-track::before {
+  content: '';
+  position: absolute;
+  height: 100%;
+  border-radius: 3px;
+  background: #000;
+  z-index: 1;
+}
 {% endstyle %}
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
   // Sorting
   const sortSelect = document.querySelector('[data-collection-sort]');
-  if (sortSelect) {
-    sortSelect.addEventListener('change', function() {
+  if(sortSelect){
+    sortSelect.addEventListener('change', function(){
       const url = new URL(window.location.href);
       url.searchParams.set('sort_by', this.value);
       window.location.href = url.toString();
     });
   }
 
-  // Price filter
-  const priceRange = document.getElementById('price-range');
-  const maxPrice = document.getElementById('max-price');
+  // Double range slider
+  const minSlider = document.getElementById('price-min');
+  const maxSlider = document.getElementById('price-max');
+  const minLabel = document.getElementById('min-price');
+  const maxLabel = document.getElementById('max-price');
+  const track = document.querySelector('.slider-track');
 
-  if(priceRange && maxPrice) {
-    priceRange.addEventListener('input', function() {
-      const value = this.value;
-      maxPrice.textContent = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value / 100);
-    });
+  function updateTrack() {
+    const min = parseInt(minSlider.min);
+    const max = parseInt(maxSlider.max);
+    const minVal = parseInt(minSlider.value);
+    const maxVal = parseInt(maxSlider.value);
+    const range = max - min;
+    const left = ((minVal - min) / range) * 100;
+    const right = ((maxVal - min) / range) * 100;
 
-    priceRange.addEventListener('change', function() {
-      const url = new URL(window.location.href);
-      url.searchParams.set('price_max', this.value);
-      window.location.href = url.toString();
-    });
+    track.style.background = `linear-gradient(to right, rgba(0,0,0,0.1) ${left}% , #000 ${left}% , #000 ${right}%, rgba(0,0,0,0.1) ${right}%)`;
   }
+
+  function updateLabels() {
+    minLabel.textContent = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(minSlider.value / 100);
+    maxLabel.textContent = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(maxSlider.value / 100);
+  }
+
+  minSlider.addEventListener('input', function(){
+    if(parseInt(minSlider.value) > parseInt(maxSlider.value)){
+      minSlider.value = maxSlider.value;
+    }
+    updateTrack();
+    updateLabels();
+  });
+
+  maxSlider.addEventListener('input', function(){
+    if(parseInt(maxSlider.value) < parseInt(minSlider.value)){
+      maxSlider.value = minSlider.value;
+    }
+    updateTrack();
+    updateLabels();
+  });
+
+  // Initialize
+  updateTrack();
+  updateLabels();
+
+  // Apply filter on change
+  minSlider.addEventListener('change', function(){
+    const url = new URL(window.location.href);
+    url.searchParams.set('price_min', minSlider.value);
+    url.searchParams.set('price_max', maxSlider.value);
+    window.location.href = url.toString();
+  });
+
+  maxSlider.addEventListener('change', function(){
+    const url = new URL(window.location.href);
+    url.searchParams.set('price_min', minSlider.value);
+    url.searchParams.set('price_max', maxSlider.value);
+    window.location.href = url.toString();
+  });
 });
 </script>
-
-{% schema %}
-{
-  "name": "Collection Products",
-  "tag": "section",
-  "class": "section-main-collection",
-  "settings": [
-    {
-      "type": "checkbox",
-      "id": "show_heading",
-      "label": "Show heading",
-      "default": true
-    },
-    {
-      "type": "range",
-      "id": "products_per_page",
-      "label": "Products per page",
-      "min": 6,
-      "max": 24,
-      "step": 3,
-      "default": 12
-    },
-    {
-      "type": "range",
-      "id": "columns_desktop",
-      "label": "Desktop columns",
-      "min": 2,
-      "max": 5,
-      "step": 1,
-      "default": 3
-    },
-    {
-      "type": "checkbox",
-      "id": "enable_filtering",
-      "label": "Enable filtering",
-      "default": true
-    },
-    {
-      "type": "checkbox",
-      "id": "enable_sorting",
-      "label": "Enable sorting",
-      "default": true
-    }
-  ]
-}
-{% endschema %}
