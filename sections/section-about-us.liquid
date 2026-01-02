@@ -1,0 +1,572 @@
+{%- comment -%}
+  About Us - Feature cards with video and CTA
+{%- endcomment -%}
+
+<section class="about-us" data-section-id="{{ section.id }}">
+  <div class="container">
+    <!-- Section Header -->
+    <div class="about-us__header">
+      <div class="section-divider">
+        <div class="section-divider__line section-divider__line--short"></div>
+        <span class="section-divider__text">{{ section.settings.section_number | default: '02' }}</span>
+        <div class="section-divider__line section-divider__line--long"></div>
+      </div>
+      
+      <h2 class="about-us__title">{{ section.settings.heading | default: 'ABOUT US' }}</h2>
+      
+      {%- if section.settings.subtitle != blank -%}
+        <p class="about-us__subtitle">{{ section.settings.subtitle }}</p>
+      {%- endif -%}
+      
+      <div class="section-divider">
+        <div class="section-divider__line section-divider__line--long"></div>
+        <span class="section-divider__text">•</span>
+        <div class="section-divider__line section-divider__line--short"></div>
+      </div>
+    </div>
+
+    <!-- Main Content Grid -->
+    <div class="about-us__grid">
+      <!-- Video/Image Side -->
+      <div class="about-us__media">
+        {%- if section.settings.video_url != blank -%}
+          <div class="about-us__video-wrapper">
+            {%- assign video_url = section.settings.video_url -%}
+            {%- if video_url contains 'youtube.com' or video_url contains 'youtu.be' -%}
+              {%- assign video_id = video_url | split: 'v=' | last | split: '&' | first -%}
+              {%- if video_url contains 'youtu.be' -%}
+                {%- assign video_id = video_url | split: '/' | last | split: '?' | first -%}
+              {%- endif -%}
+              <iframe 
+                src="https://www.youtube.com/embed/{{ video_id }}"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+                loading="lazy"
+                class="about-us__video"
+              ></iframe>
+            {%- elsif video_url contains 'vimeo.com' -%}
+              {%- assign video_id = video_url | split: '/' | last -%}
+              <iframe 
+                src="https://player.vimeo.com/video/{{ video_id }}"
+                frameborder="0"
+                allow="autoplay; fullscreen"
+                allowfullscreen
+                loading="lazy"
+                class="about-us__video"
+              ></iframe>
+            {%- endif -%}
+          </div>
+        {%- elsif section.settings.image != blank -%}
+          <div class="about-us__image-wrapper">
+            <img 
+              src="{{ section.settings.image | image_url: width: 800 }}"
+              alt="{{ section.settings.image.alt | escape }}"
+              loading="lazy"
+              class="about-us__image"
+              width="800"
+              height="600"
+            >
+          </div>
+        {%- else -%}
+          <div class="about-us__placeholder">
+            <div class="about-us__placeholder-icon">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+              </svg>
+            </div>
+            <span>Add video or image</span>
+          </div>
+        {%- endif -%}
+      </div>
+
+      <!-- Content Side -->
+      <div class="about-us__content">
+        {%- if section.settings.content_heading != blank -%}
+          <h3 class="about-us__content-heading">{{ section.settings.content_heading }}</h3>
+        {%- endif -%}
+        
+        {%- if section.settings.content_text != blank -%}
+          <div class="about-us__content-text">{{ section.settings.content_text }}</div>
+        {%- endif -%}
+
+        {%- if section.settings.button_label != blank -%}
+          <a href="{{ section.settings.button_link }}" class="about-us__btn">
+            <span>{{ section.settings.button_label }}</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12h14m-7-7 7 7-7 7"/>
+            </svg>
+          </a>
+        {%- endif -%}
+      </div>
+    </div>
+
+    <!-- Feature Cards -->
+    {%- if section.blocks.size > 0 -%}
+      <div class="about-us__cards">
+        {%- for block in section.blocks -%}
+          <div class="about-card" {{ block.shopify_attributes }}>
+            <div class="about-card__icon">
+              {%- case block.settings.icon -%}
+                {%- when 'quality' -%}
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                  </svg>
+                {%- when 'shipping' -%}
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <rect x="1" y="3" width="15" height="13"></rect>
+                    <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+                    <circle cx="5.5" cy="18.5" r="2.5"></circle>
+                    <circle cx="18.5" cy="18.5" r="2.5"></circle>
+                  </svg>
+                {%- when 'support' -%}
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+                  </svg>
+                {%- when 'secure' -%}
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    <polyline points="9 12 11 14 15 10"/>
+                  </svg>
+                {%- when 'gift' -%}
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <polyline points="20 12 20 22 4 22 4 12"></polyline>
+                    <rect x="2" y="7" width="20" height="5"></rect>
+                    <line x1="12" y1="22" x2="12" y2="7"></line>
+                    <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path>
+                    <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path>
+                  </svg>
+                {%- when 'check' -%}
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                {%- else -%}
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                  </svg>
+              {%- endcase -%}
+            </div>
+            <h4 class="about-card__title">{{ block.settings.title }}</h4>
+            <p class="about-card__text">{{ block.settings.text }}</p>
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% style %}
+  .about-us {
+    padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px;
+    background: {{ section.settings.bg_color }};
+  }
+
+  .about-us__header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .about-us__title {
+    font-size: 1.5rem;
+    font-family: 'Space Grotesk', monospace;
+    font-weight: 300;
+    letter-spacing: 0.1em;
+    color: #000;
+    padding: 1.5rem 0;
+  }
+
+  @media (min-width: 768px) {
+    .about-us__title {
+      font-size: 1.75rem;
+    }
+  }
+
+  .about-us__subtitle {
+    font-size: 1rem;
+    color: rgba(0, 0, 0, 0.5);
+    max-width: 32rem;
+    margin: 0 auto 1rem;
+    line-height: 1.6;
+  }
+
+  /* Grid */
+  .about-us__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    margin-bottom: 3rem;
+  }
+
+  @media (min-width: 768px) {
+    .about-us__grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+  }
+
+  /* Media */
+  .about-us__media {
+    position: relative;
+  }
+
+  .about-us__video-wrapper {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+    background: #000;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .about-us__video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .about-us__image-wrapper {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .about-us__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+
+  .about-us__image-wrapper:hover .about-us__image {
+    transform: scale(1.05);
+  }
+
+  .about-us__placeholder {
+    aspect-ratio: 4 / 3;
+    background: #f3f4f6;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    color: rgba(0, 0, 0, 0.3);
+    font-size: 0.875rem;
+  }
+
+  .about-us__placeholder-icon {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Content */
+  .about-us__content {
+    padding: 1rem 0;
+  }
+
+  .about-us__content-heading {
+    font-size: 1.5rem;
+    font-family: 'Space Grotesk', monospace;
+    font-weight: 300;
+    line-height: 1.3;
+    margin-bottom: 1rem;
+  }
+
+  @media (min-width: 768px) {
+    .about-us__content-heading {
+      font-size: 1.75rem;
+    }
+  }
+
+  .about-us__content-text {
+    font-size: 0.9375rem;
+    color: rgba(0, 0, 0, 0.6);
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+  }
+
+  .about-us__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.875rem 1.75rem;
+    background: #000;
+    color: #fff;
+    font-size: 0.75rem;
+    font-family: 'Space Grotesk', monospace;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .about-us__btn:hover {
+    background: rgba(0, 0, 0, 0.85);
+    gap: 0.75rem;
+  }
+
+  /* Cards */
+  .about-us__cards {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin-top: 3rem;
+    padding-top: 3rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  @media (min-width: 640px) {
+    .about-us__cards {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .about-us__cards {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .about-card {
+    padding: 1.5rem;
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    text-align: center;
+    transition: border-color 0.3s ease;
+  }
+
+  .about-card:hover {
+    border-color: rgba(0, 0, 0, 0.2);
+  }
+
+  .about-card__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.5rem;
+    height: 3.5rem;
+    margin: 0 auto 1rem;
+    color: #000;
+  }
+
+  .about-card__title {
+    font-size: 0.9375rem;
+    font-family: 'Space Grotesk', monospace;
+    font-weight: 400;
+    margin-bottom: 0.5rem;
+  }
+
+  .about-card__text {
+    font-size: 0.8125rem;
+    color: rgba(0, 0, 0, 0.5);
+    line-height: 1.6;
+  }
+
+  /* Section Divider */
+  .section-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+  }
+
+  .section-divider__line {
+    height: 1px;
+    background: rgba(0, 0, 0, 0.1);
+  }
+
+  .section-divider__line--short { width: 1.5rem; }
+  .section-divider__line--long { width: 4rem; }
+
+  @media (min-width: 768px) {
+    .section-divider__line--short { width: 2rem; }
+    .section-divider__line--long { width: 6rem; }
+  }
+
+  .section-divider__text {
+    font-size: 0.6875rem;
+    font-family: 'Space Grotesk', monospace;
+    letter-spacing: 0.1em;
+    color: rgba(0, 0, 0, 0.3);
+  }
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "About Us",
+  "tag": "section",
+  "class": "section-about-us",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Header"
+    },
+    {
+      "type": "text",
+      "id": "section_number",
+      "label": "Section Number",
+      "default": "02"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "ABOUT US"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Quality, innovation, and customer satisfaction."
+    },
+    {
+      "type": "header",
+      "content": "Media"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "video_url",
+      "label": "Video URL (YouTube/Vimeo)",
+      "info": "Video will override image if provided"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "content_heading",
+      "label": "Content Heading",
+      "default": "Our Story"
+    },
+    {
+      "type": "richtext",
+      "id": "content_text",
+      "label": "Content Text",
+      "default": "<p>We believe in quality, innovation, and customer satisfaction. Every product in our store is carefully selected to meet the highest standards.</p><p>Our mission is to bring you the best technology for modern life.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Label",
+      "default": "Learn More"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background",
+      "default": "#fafafa"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0, "max": 100, "step": 10, "default": 60, "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0, "max": 100, "step": 10, "default": 60, "unit": "px"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature Card",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "quality", "label": "Quality (Star)" },
+            { "value": "shipping", "label": "Shipping (Truck)" },
+            { "value": "support", "label": "Support (Chat)" },
+            { "value": "secure", "label": "Secure (Shield)" },
+            { "value": "gift", "label": "Gift" },
+            { "value": "check", "label": "Check" }
+          ],
+          "default": "quality"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Premium Quality"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text",
+          "default": "Carefully selected materials and products."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "About Us",
+      "blocks": [
+        {
+          "type": "feature",
+          "settings": {
+            "icon": "quality",
+            "title": "Premium Quality",
+            "text": "Carefully selected materials and products."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "icon": "shipping",
+            "title": "Fast Shipping",
+            "text": "Worldwide delivery in 3-5 business days."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "icon": "support",
+            "title": "24/7 Support",
+            "text": "Our team is always here to help you."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "icon": "secure",
+            "title": "Secure Payment",
+            "text": "Your data is protected with encryption."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
