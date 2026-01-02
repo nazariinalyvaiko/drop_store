@@ -25,17 +25,28 @@
         {%- if section.settings.enable_filtering -%}
           <div class="collection-page__filters">
             <!-- Price Filter -->
+            {%- assign min_price = collection.products[0].price -%}
+            {%- assign max_price = collection.products[0].price -%}
+            {%- for product in collection.products -%}
+              {%- if product.price < min_price -%}
+                {%- assign min_price = product.price -%}
+              {%- endif -%}
+              {%- if product.price > max_price -%}
+                {%- assign max_price = product.price -%}
+              {%- endif -%}
+            {%- endfor -%}
+
             <div class="price-filter">
               <label class="price-filter__label">Price</label>
               <div class="price-filter__values">
-                <span id="min-price">{{ collection.products | map: 'price' | min | money }}</span>
+                <span id="min-price">{{ min_price | money }}</span>
                 -
-                <span id="max-price">{{ collection.products | map: 'price' | max | money }}</span>
+                <span id="max-price">{{ max_price | money }}</span>
               </div>
               <input type="range" id="price-range"
-                     min="{{ collection.products | map: 'price' | min }}"
-                     max="{{ collection.products | map: 'price' | max }}"
-                     value="{{ collection.products | map: 'price' | max }}"
+                     min="{{ min_price }}"
+                     max="{{ max_price }}"
+                     value="{{ max_price }}"
                      step="1" />
             </div>
           </div>
@@ -164,7 +175,6 @@
     border: 1px solid rgba(0, 0, 0, 0.2);
     background: #fff url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="8" viewBox="0 0 12 8"><path fill="%23000" d="M6 8L0 0h12z"/></svg>') no-repeat right 0.75rem center;
     background-size: 12px 8px;
-    background-color: #fff;
     cursor: pointer;
     color: rgba(0, 0, 0, 0.8);
     appearance: none;
@@ -294,6 +304,7 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+  // Sorting
   const sortSelect = document.querySelector('[data-collection-sort]');
   if (sortSelect) {
     sortSelect.addEventListener('change', function() {
@@ -303,6 +314,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
+  // Price filter
   const priceRange = document.getElementById('price-range');
   const maxPrice = document.getElementById('max-price');
 
