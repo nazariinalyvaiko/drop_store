@@ -71,6 +71,14 @@ button {
   background: none;
 }
 
+/* Slight global scale reduction on desktop to reduce perceived page size */
+@media (min-width: 1024px) {
+  html {
+    /* Reduce root font-size slightly (affects rem-based sizes) */
+    font-size: 98%;
+  }
+}
+
 img,
 video {
   max-width: 100%;
