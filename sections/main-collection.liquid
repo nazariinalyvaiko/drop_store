@@ -6,15 +6,11 @@
   <div class="container">
     <!-- Section Header -->
     <div class="collection-page__header">
-      <!-- Removed section divider label: COLLECTION -->
-      
       {%- if section.settings.show_heading -%}
         <h1 class="collection-page__title">
           {{ collection.title }}
         </h1>
       {%- endif -%}
-      
-      <!-- Product count divider hidden on collection pages -->
     </div>
 
     {%- if collection.description != blank -%}
@@ -28,7 +24,20 @@
       <div class="collection-page__toolbar">
         {%- if section.settings.enable_filtering -%}
           <div class="collection-page__filters">
-            <!-- Filter implementation -->
+            <!-- Price Filter -->
+            <div class="price-filter">
+              <label class="price-filter__label">Price</label>
+              <div class="price-filter__values">
+                <span id="min-price">{{ collection.products | map: 'price' | min | money }}</span>
+                -
+                <span id="max-price">{{ collection.products | map: 'price' | max | money }}</span>
+              </div>
+              <input type="range" id="price-range"
+                     min="{{ collection.products | map: 'price' | min }}"
+                     max="{{ collection.products | map: 'price' | max }}"
+                     value="{{ collection.products | map: 'price' | max }}"
+                     step="1" />
+            </div>
           </div>
         {%- endif -%}
 
@@ -159,8 +168,6 @@
     cursor: pointer;
     color: rgba(0, 0, 0, 0.8);
     appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
     transition: all 0.2s ease;
   }
 
@@ -229,19 +236,89 @@
     padding: 4rem 0;
     color: rgba(0, 0, 0, 0.5);
   }
+
+  /* Price Filter Styles */
+  .price-filter {
+    text-align: center;
+    margin-bottom: 2rem;
+    width: 100%;
+  }
+
+  .price-filter__label {
+    display: block;
+    font-family: 'Space Grotesk', monospace;
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+    color: rgba(0,0,0,0.7);
+    text-transform: uppercase;
+  }
+
+  .price-filter__values {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    color: rgba(0,0,0,0.6);
+    margin-bottom: 0.5rem;
+  }
+
+  #price-range {
+    -webkit-appearance: none;
+    width: 80%;
+    height: 6px;
+    background: rgba(0,0,0,0.1);
+    border-radius: 3px;
+    outline: none;
+    margin: 0 auto;
+    display: block;
+  }
+
+  #price-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    background: #000;
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+  }
+
+  #price-range::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    background: #000;
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+  }
 {% endstyle %}
 
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const sortSelect = document.querySelector('[data-collection-sort]');
-    if (sortSelect) {
-      sortSelect.addEventListener('change', function() {
-        const url = new URL(window.location.href);
-        url.searchParams.set('sort_by', this.value);
-        window.location.href = url.toString();
-      });
-    }
-  });
+document.addEventListener('DOMContentLoaded', function() {
+  const sortSelect = document.querySelector('[data-collection-sort]');
+  if (sortSelect) {
+    sortSelect.addEventListener('change', function() {
+      const url = new URL(window.location.href);
+      url.searchParams.set('sort_by', this.value);
+      window.location.href = url.toString();
+    });
+  }
+
+  const priceRange = document.getElementById('price-range');
+  const maxPrice = document.getElementById('max-price');
+
+  if(priceRange && maxPrice) {
+    priceRange.addEventListener('input', function() {
+      const value = this.value;
+      maxPrice.textContent = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value / 100);
+    });
+
+    priceRange.addEventListener('change', function() {
+      const url = new URL(window.location.href);
+      url.searchParams.set('price_max', this.value);
+      window.location.href = url.toString();
+    });
+  }
+});
 </script>
 
 {% schema %}
@@ -289,4 +366,3 @@
   ]
 }
 {% endschema %}
-
