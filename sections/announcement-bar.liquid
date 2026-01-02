@@ -1,0 +1,100 @@
+{%- if section.settings.show_announcement -%}
+  <div class="announcement-bar" data-section-id="{{ section.id }}">
+    <div class="announcement-bar__wrapper animate-marquee">
+      {%- for block in section.blocks -%}
+        <div class="announcement-bar__item">
+          <span class="announcement-bar__text">{{ block.settings.text }}</span>
+          <span class="announcement-bar__dot">•</span>
+        </div>
+      {%- endfor -%}
+      {%- for block in section.blocks -%}
+        <div class="announcement-bar__item">
+          <span class="announcement-bar__text">{{ block.settings.text }}</span>
+          <span class="announcement-bar__dot">•</span>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+{%- endif -%}
+
+{% style %}
+  .announcement-bar {
+    position: relative;
+    overflow: hidden;
+    background: #000;
+    color: rgba(255, 255, 255, 0.7);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .announcement-bar__wrapper {
+    display: flex;
+    white-space: nowrap;
+  }
+
+  .announcement-bar__item {
+    display: flex;
+    align-items: center;
+    padding: 0.25rem 1rem;
+  }
+
+  .announcement-bar__text {
+    font-size: 0.5625rem;
+    font-family: 'Space Grotesk', monospace;
+    font-weight: 300;
+    font-style: italic;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    line-height: 1;
+  }
+
+  .announcement-bar__dot {
+    margin-left: 1rem;
+    color: rgba(255, 255, 255, 0.05);
+    font-size: 0.375rem;
+  }
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "Announcement Bar",
+  "class": "section-announcement",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_announcement",
+      "label": "Show announcement bar",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "announcement",
+      "name": "Announcement",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Free Shipping on Orders $100+"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Announcement Bar",
+      "blocks": [
+        { "type": "announcement", "settings": { "text": "Free Shipping on Orders $100+" } },
+        { "type": "announcement", "settings": { "text": "Fast Processing 24-48h" } },
+        { "type": "announcement", "settings": { "text": "Premium Quality Guaranteed" } },
+        { "type": "announcement", "settings": { "text": "Secure Payment" } },
+        { "type": "announcement", "settings": { "text": "100% Quality Guarantee" } },
+        { "type": "announcement", "settings": { "text": "24/7 Support" } },
+        { "type": "announcement", "settings": { "text": "Exclusive Collections" } },
+        { "type": "announcement", "settings": { "text": "Easy Returns" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
+

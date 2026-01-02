@@ -1,0 +1,199 @@
+{
+  "sections": {
+    "announcement-bar": {
+      "type": "announcement-bar",
+      "blocks": {
+        "announcement-0": {
+          "type": "announcement",
+          "settings": {
+            "text": "Free Shipping on Orders $100+"
+          }
+        },
+        "announcement-1": {
+          "type": "announcement",
+          "settings": {
+            "text": "Fast Processing 24-48h"
+          }
+        },
+        "announcement-2": {
+          "type": "announcement",
+          "settings": {
+            "text": "Premium Quality Guaranteed"
+          }
+        },
+        "announcement-3": {
+          "type": "announcement",
+          "settings": {
+            "text": "Secure Payment"
+          }
+        },
+        "announcement-4": {
+          "type": "announcement",
+          "settings": {
+            "text": "100% Quality Guarantee"
+          }
+        },
+        "announcement-5": {
+          "type": "announcement",
+          "settings": {
+            "text": "24/7 Support"
+          }
+        },
+        "announcement-6": {
+          "type": "announcement",
+          "settings": {
+            "text": "Exclusive Collections"
+          }
+        },
+        "announcement-7": {
+          "type": "announcement",
+          "settings": {
+            "text": "Easy Returns"
+          }
+        }
+      },
+      "block_order": ["announcement-0", "announcement-1", "announcement-2", "announcement-3", "announcement-4", "announcement-5", "announcement-6", "announcement-7"],
+      "settings": {
+        "show_announcement": true
+      }
+    },
+    "hero": {
+      "type": "hero",
+      "blocks": {
+        "tag-0": {
+          "type": "tag",
+          "settings": {
+            "text": "AI Gadgets"
+          }
+        },
+        "tag-1": {
+          "type": "tag",
+          "settings": {
+            "text": "Smart Home"
+          }
+        },
+        "tag-2": {
+          "type": "tag",
+          "settings": {
+            "text": "Wearables"
+          }
+        }
+      },
+      "block_order": ["tag-0", "tag-1", "tag-2"],
+      "settings": {
+        "label": "Est. 2026",
+        "heading": "Best for You",
+        "subtitle": "Smart devices for modern life. Quality, status, exclusivity. Crafted to feel premium everywhere.",
+        "button_label": "Explore",
+        "button_link": "/collections/all",
+        "secondary_button_label": "Learn More",
+        "secondary_button_link": "/pages/about",
+        "info_label_1": "Shipping",
+        "info_value_1": "Worldwide",
+        "info_label_2": "Support",
+        "info_value_2": "24/7"
+      }
+    },
+    "featured-products": {
+      "type": "featured-products",
+      "settings": {
+        "section_number": "01",
+        "heading": "PRODUCTS",
+        "products_to_show": 6,
+        "show_view_all": true,
+        "view_all_label": "VIEW ALL"
+      }
+    },
+    "stories": {
+      "type": "stories",
+      "blocks": {
+        "story-0": {
+          "type": "story",
+          "settings": {
+            "title": "About Us",
+            "excerpt": "The story of VAIKO STORE creation and our philosophy.",
+            "type": "ARTICLE",
+            "date": "2026",
+            "link": "/pages/about",
+            "link_text": "Learn More"
+          }
+        },
+        "story-1": {
+          "type": "story",
+          "settings": {
+            "title": "How We Work",
+            "excerpt": "The process from product selection to delivery.",
+            "type": "ARTICLE",
+            "date": "2026",
+            "link": "/pages/about",
+            "link_text": "Learn More"
+          }
+        },
+        "story-2": {
+          "type": "story",
+          "settings": {
+            "title": "Our Standards",
+            "excerpt": "What makes our products special.",
+            "type": "ARTICLE",
+            "date": "2026",
+            "link": "/pages/about",
+            "link_text": "Learn More"
+          }
+        }
+      },
+      "block_order": ["story-0", "story-1", "story-2"],
+      "settings": {
+        "section_number": "02",
+        "heading": "STORIES"
+      }
+    },
+    "testimonials": {
+      "type": "testimonials",
+      "blocks": {
+        "testimonial-0": {
+          "type": "testimonial",
+          "settings": {
+            "name": "Alex K.",
+            "location": "Kyiv, Ukraine",
+            "text": "Excellent quality and fast delivery. Very satisfied with the purchase!",
+            "rating": 4
+          }
+        },
+        "testimonial-1": {
+          "type": "testimonial",
+          "settings": {
+            "name": "Maria S.",
+            "location": "London, UK",
+            "text": "Stylish packaging and product matches the description. Will order again!",
+            "rating": 5
+          }
+        },
+        "testimonial-2": {
+          "type": "testimonial",
+          "settings": {
+            "name": "John D.",
+            "location": "New York, USA",
+            "text": "Great store with excellent customer service. Highly recommend!",
+            "rating": 5
+          }
+        },
+        "testimonial-3": {
+          "type": "testimonial",
+          "settings": {
+            "name": "Sophie L.",
+            "location": "Paris, France",
+            "text": "The product exceeded my expectations. Very happy with my purchase!",
+            "rating": 4
+          }
+        }
+      },
+      "block_order": ["testimonial-0", "testimonial-1", "testimonial-2", "testimonial-3"],
+      "settings": {
+        "section_number": "03",
+        "heading": "REVIEWS"
+      }
+    }
+  },
+  "order": ["announcement-bar", "hero", "featured-products", "stories", "testimonials"]
+}
+

@@ -1,0 +1,438 @@
+<footer class="footer" data-section-id="{{ section.id }}">
+  <div class="container">
+    <!-- Decorative Header -->
+    <div class="footer__header">
+      <div class="footer__header-line"></div>
+      <span class="footer__header-text">{{ section.settings.logo_text_main | default: 'VAIKO' }} {{ section.settings.logo_text_sub | default: 'STORE' }}</span>
+      <div class="footer__header-line footer__header-line--long"></div>
+    </div>
+
+    <!-- Footer Grid -->
+    <div class="footer__grid">
+      <!-- Brand -->
+      <div class="footer__brand">
+        <div class="footer__logo">
+          <span class="footer__logo-main">{{ section.settings.logo_text_main | default: 'VAIKO' }}</span>
+          <span class="footer__logo-divider"></span>
+          <span class="footer__logo-sub">{{ section.settings.logo_text_sub | default: 'STORE' }}</span>
+        </div>
+        <p class="footer__description">
+          {{ section.settings.description | default: 'Premium status store. Quality, status, exclusivity.' }}
+        </p>
+      </div>
+
+      <!-- Menu Blocks -->
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'menu' -%}
+            <div class="footer__menu" {{ block.shopify_attributes }}>
+              <div class="footer__menu-line"></div>
+              <h4 class="footer__menu-title">{{ block.settings.heading }}</h4>
+              <ul class="footer__menu-list">
+                {%- for link in block.settings.menu.links -%}
+                  <li>
+                    <a href="{{ link.url }}" class="footer__menu-link">
+                      <span class="footer__menu-arrow">→</span>
+                      <span>{{ link.title }}</span>
+                    </a>
+                  </li>
+                {%- endfor -%}
+              </ul>
+            </div>
+
+          {%- when 'contact' -%}
+            <div class="footer__contact" {{ block.shopify_attributes }}>
+              <div class="footer__menu-line"></div>
+              <h4 class="footer__menu-title">{{ block.settings.heading | default: 'Contact' }}</h4>
+              <ul class="footer__contact-list">
+                {%- if block.settings.email != blank -%}
+                  <li class="footer__contact-item">
+                    <span class="footer__contact-label">Email</span>
+                    <a href="mailto:{{ block.settings.email }}" class="footer__contact-value">{{ block.settings.email }}</a>
+                  </li>
+                {%- endif -%}
+                {%- if block.settings.phone != blank -%}
+                  <li class="footer__contact-item">
+                    <span class="footer__contact-label">Phone</span>
+                    <a href="tel:{{ block.settings.phone }}" class="footer__contact-value">{{ block.settings.phone }}</a>
+                  </li>
+                {%- endif -%}
+              </ul>
+            </div>
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+
+    <!-- Footer Bottom -->
+    <div class="footer__bottom">
+      <p class="footer__copyright">
+        &copy; {{ 'now' | date: '%Y' }} <span>{{ shop.name }}</span>. All rights reserved.
+      </p>
+      <div class="footer__tags">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'tag' -%}
+            {%- unless forloop.first -%}
+              <span class="footer__tag-dot">•</span>
+            {%- endunless -%}
+            <span class="footer__tag">{{ block.settings.text }}</span>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</footer>
+
+{% style %}
+  .footer {
+    background: #000;
+    color: rgba(255, 255, 255, 0.6);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .footer .container {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+
+  /* Header */
+  .footer__header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 3rem;
+    height: 1.5rem;
+  }
+
+  .footer__header-line {
+    height: 1px;
+    width: 3rem;
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  .footer__header-line--long {
+    flex: 1;
+    max-width: 20rem;
+  }
+
+  .footer__header-text {
+    padding: 0 1rem;
+    font-size: 0.75rem;
+    font-family: 'Space Grotesk', monospace;
+    letter-spacing: 0.2em;
+    color: rgba(255, 255, 255, 0.3);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  /* Grid */
+  .footer__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  @media (min-width: 768px) {
+    .footer__grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  /* Brand */
+  .footer__brand {
+    grid-column: 1;
+  }
+
+  @media (min-width: 768px) {
+    .footer__brand {
+      grid-column: 1;
+    }
+  }
+
+  .footer__logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .footer__logo-main {
+    font-size: 1.5rem;
+    font-family: 'Space Grotesk', monospace;
+    font-weight: 300;
+    color: #fff;
+  }
+
+  .footer__logo-divider {
+    width: 1px;
+    height: 1.5rem;
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  .footer__logo-sub {
+    font-size: 1.5rem;
+    font-family: 'Space Grotesk', monospace;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .footer__description {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.4);
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  /* Menu */
+  .footer__menu-line {
+    height: 1px;
+    width: 2rem;
+    background: rgba(255, 255, 255, 0.1);
+    margin-bottom: 1rem;
+  }
+
+  .footer__menu-title {
+    font-size: 0.75rem;
+    font-family: 'Space Grotesk', monospace;
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #fff;
+    margin-bottom: 1.5rem;
+  }
+
+  .footer__menu-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .footer__menu-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.4);
+    text-decoration: none;
+    font-weight: 300;
+    transition: color 0.3s ease;
+  }
+
+  .footer__menu-link:hover {
+    color: #fff;
+  }
+
+  .footer__menu-arrow {
+    transition: transform 0.3s ease;
+  }
+
+  .footer__menu-link:hover .footer__menu-arrow {
+    transform: translateX(0.25rem);
+  }
+
+  /* Contact */
+  .footer__contact-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .footer__contact-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .footer__contact-label {
+    font-size: 0.75rem;
+    font-family: 'Space Grotesk', monospace;
+    color: rgba(255, 255, 255, 0.3);
+  }
+
+  .footer__contact-value {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.4);
+    text-decoration: none;
+    font-weight: 300;
+    transition: color 0.3s ease;
+  }
+
+  .footer__contact-value:hover {
+    color: #fff;
+  }
+
+  /* Bottom */
+  .footer__bottom {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+    padding-top: 2rem;
+    margin-top: 3rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  @media (min-width: 768px) {
+    .footer__bottom {
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
+
+  .footer__copyright {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.3);
+    font-weight: 300;
+  }
+
+  .footer__copyright span {
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  .footer__tags {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .footer__tag {
+    font-size: 0.75rem;
+    font-family: 'Space Grotesk', monospace;
+    letter-spacing: 0.05em;
+    color: rgba(255, 255, 255, 0.3);
+    transition: color 0.3s ease;
+  }
+
+  .footer__tag:hover {
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  .footer__tag-dot {
+    color: rgba(255, 255, 255, 0.2);
+  }
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "Footer",
+  "class": "section-footer",
+  "settings": [
+    {
+      "type": "text",
+      "id": "logo_text_main",
+      "label": "Logo Main Text",
+      "default": "VAIKO"
+    },
+    {
+      "type": "text",
+      "id": "logo_text_sub",
+      "label": "Logo Secondary Text",
+      "default": "STORE"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Premium status store. Quality, status, exclusivity."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "menu",
+      "name": "Menu",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Menu"
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Menu"
+        }
+      ]
+    },
+    {
+      "type": "contact",
+      "name": "Contact",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Contact"
+        },
+        {
+          "type": "text",
+          "id": "email",
+          "label": "Email",
+          "default": "info@vaikostore.com"
+        },
+        {
+          "type": "text",
+          "id": "phone",
+          "label": "Phone"
+        }
+      ]
+    },
+    {
+      "type": "tag",
+      "name": "Tag",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Premium"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Footer",
+      "blocks": [
+        {
+          "type": "menu",
+          "settings": {
+            "heading": "Products"
+          }
+        },
+        {
+          "type": "menu",
+          "settings": {
+            "heading": "Info"
+          }
+        },
+        {
+          "type": "contact",
+          "settings": {
+            "heading": "Contact",
+            "email": "info@vaikostore.com"
+          }
+        },
+        {
+          "type": "tag",
+          "settings": { "text": "Premium" }
+        },
+        {
+          "type": "tag",
+          "settings": { "text": "Quality" }
+        },
+        {
+          "type": "tag",
+          "settings": { "text": "Status" }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+

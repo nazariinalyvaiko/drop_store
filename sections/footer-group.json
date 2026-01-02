@@ -1,0 +1,56 @@
+{
+  "type": "footer",
+  "name": "Footer group",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "menu-1": {
+          "type": "menu",
+          "settings": {
+            "heading": "Products"
+          }
+        },
+        "menu-2": {
+          "type": "menu",
+          "settings": {
+            "heading": "Info"
+          }
+        },
+        "contact": {
+          "type": "contact",
+          "settings": {
+            "heading": "Contact",
+            "email": "info@vaikostore.com"
+          }
+        },
+        "tag-1": {
+          "type": "tag",
+          "settings": {
+            "text": "Premium"
+          }
+        },
+        "tag-2": {
+          "type": "tag",
+          "settings": {
+            "text": "Quality"
+          }
+        },
+        "tag-3": {
+          "type": "tag",
+          "settings": {
+            "text": "Status"
+          }
+        }
+      },
+      "block_order": ["menu-1", "menu-2", "contact", "tag-1", "tag-2", "tag-3"],
+      "settings": {
+        "logo_text_main": "VAIKO",
+        "logo_text_sub": "STORE",
+        "description": "Premium status store. Quality, status, exclusivity."
+      }
+    }
+  },
+  "order": ["footer"]
+}
+

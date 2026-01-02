@@ -1,0 +1,118 @@
+{%- comment -%}
+  Cart Drawer Component
+
+  Usage:
+  {% render 'cart-drawer' %}
+{%- endcomment -%}
+
+<div class="cart-drawer" data-cart-drawer aria-hidden="true">
+  <div class="cart-drawer__overlay" data-action="cart-close"></div>
+  
+  <div class="cart-drawer__container">
+    <!-- Header -->
+    <div class="cart-drawer__header">
+      <h2 class="cart-drawer__title">Cart</h2>
+      <button type="button" class="cart-drawer__close" data-action="cart-close" aria-label="Close">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Items -->
+    <div class="cart-drawer__content" data-cart-items>
+      {%- if cart.item_count == 0 -%}
+        <div class="cart-drawer__empty">
+          <p class="cart-drawer__empty-text">Your cart is empty</p>
+          <p class="cart-drawer__empty-subtext">Add some products to get started</p>
+        </div>
+      {%- else -%}
+        {%- for item in cart.items -%}
+          <div class="cart-drawer__item" data-cart-item data-key="{{ item.key }}">
+            <div class="cart-drawer__item-image">
+              {%- if item.image -%}
+                <img 
+                  src="{{ item.image | image_url: width: 160 }}"
+                  alt="{{ item.title | escape }}"
+                  loading="lazy"
+                  width="80"
+                  height="80"
+                >
+              {%- endif -%}
+            </div>
+            
+            <div class="cart-drawer__item-details">
+              <h3 class="cart-drawer__item-title">{{ item.product.title }}</h3>
+              {%- if item.variant.title != 'Default Title' -%}
+                <p class="cart-drawer__item-variant">{{ item.variant.title }}</p>
+              {%- endif -%}
+              <p class="cart-drawer__item-price">{{ item.price | money }}</p>
+            </div>
+            
+            <div class="cart-drawer__item-actions">
+              <div class="cart-drawer__quantity">
+                <button 
+                  type="button" 
+                  class="cart-drawer__quantity-btn" 
+                  data-action="decrease-quantity"
+                  data-key="{{ item.key }}"
+                  aria-label="Decrease quantity"
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="5" y1="12" x2="19" y2="12"/>
+                  </svg>
+                </button>
+                <span class="cart-drawer__quantity-value">{{ item.quantity }}</span>
+                <button 
+                  type="button" 
+                  class="cart-drawer__quantity-btn" 
+                  data-action="increase-quantity"
+                  data-key="{{ item.key }}"
+                  aria-label="Increase quantity"
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="12" y1="5" x2="12" y2="19"/>
+                    <line x1="5" y1="12" x2="19" y2="12"/>
+                  </svg>
+                </button>
+              </div>
+              
+              <button 
+                type="button" 
+                class="cart-drawer__remove-btn" 
+                data-action="remove-item"
+                data-key="{{ item.key }}"
+                aria-label="Remove item"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="3 6 5 6 21 6"/>
+                  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+
+    <!-- Footer -->
+    {%- if cart.item_count > 0 -%}
+      <div class="cart-drawer__footer">
+        <div class="cart-drawer__total">
+          <span class="cart-drawer__total-label">Subtotal:</span>
+          <span class="cart-drawer__total-value" data-cart-total>{{ cart.total_price | money }}</span>
+        </div>
+        
+        <a href="{{ routes.cart_url }}" class="cart-drawer__checkout-btn btn btn-primary">
+          Checkout
+        </a>
+        
+        <a href="{{ routes.cart_url }}" class="cart-drawer__view-cart-link">
+          View Cart
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+

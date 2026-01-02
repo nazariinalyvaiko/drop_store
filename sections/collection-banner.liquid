@@ -1,0 +1,106 @@
+{%- if section.settings.show_collection_image and collection.image -%}
+  <div class="collection-banner" data-section-id="{{ section.id }}">
+    <div class="collection-banner__image-wrapper">
+      <img 
+        src="{{ collection.image | image_url: width: 1920 }}"
+        alt="{{ collection.image.alt | escape | default: collection.title }}"
+        loading="eager"
+        class="collection-banner__image"
+        width="1920"
+        height="600"
+      >
+      <div class="collection-banner__overlay"></div>
+    </div>
+    <div class="collection-banner__content">
+      <h1 class="collection-banner__title">{{ collection.title }}</h1>
+      {%- if section.settings.show_collection_description and collection.description != blank -%}
+        <div class="collection-banner__description">{{ collection.description }}</div>
+      {%- endif -%}
+    </div>
+  </div>
+{%- endif -%}
+
+{% style %}
+  .collection-banner {
+    position: relative;
+    height: 40vh;
+    min-height: 300px;
+    max-height: 500px;
+    overflow: hidden;
+  }
+
+  .collection-banner__image-wrapper {
+    position: absolute;
+    inset: 0;
+  }
+
+  .collection-banner__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .collection-banner__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.6));
+  }
+
+  .collection-banner__content {
+    position: relative;
+    z-index: 10;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+    color: #fff;
+  }
+
+  .collection-banner__title {
+    font-size: 2rem;
+    font-family: 'Space Grotesk', monospace;
+    font-weight: 300;
+    letter-spacing: 0.1em;
+    margin-bottom: 1rem;
+  }
+
+  @media (min-width: 768px) {
+    .collection-banner__title {
+      font-size: 3rem;
+    }
+  }
+
+  .collection-banner__description {
+    max-width: 600px;
+    font-size: 1rem;
+    font-weight: 300;
+    line-height: 1.7;
+    opacity: 0.9;
+  }
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "Collection Banner",
+  "tag": "section",
+  "class": "section-collection-banner",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_collection_image",
+      "label": "Show collection image",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_collection_description",
+      "label": "Show collection description",
+      "default": true
+    }
+  ]
+}
+{% endschema %}
+

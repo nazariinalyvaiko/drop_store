@@ -1,0 +1,272 @@
+<section class="contact-section" data-section-id="{{ section.id }}">
+  <div class="container">
+    <div class="contact-section__wrapper">
+      <!-- Section Header -->
+      <div class="contact-section__header">
+        <div class="section-divider">
+          <div class="section-divider__line section-divider__line--short"></div>
+          <span class="section-divider__text">CONTACT</span>
+          <div class="section-divider__line section-divider__line--long"></div>
+        </div>
+        
+        <h1 class="contact-section__title">{{ section.settings.heading | default: 'Contact Us' }}</h1>
+        
+        <div class="section-divider">
+          <div class="section-divider__line section-divider__line--long"></div>
+          <span class="section-divider__text">•</span>
+          <div class="section-divider__line section-divider__line--short"></div>
+        </div>
+      </div>
+
+      <div class="contact-section__grid">
+        <!-- Contact Info -->
+        <div class="contact-section__info">
+          <h2 class="contact-section__subtitle">Get in Touch</h2>
+          
+          <div class="contact-section__details">
+            {%- if section.settings.email != blank -%}
+              <div class="contact-section__item">
+                <div class="contact-section__label">Email</div>
+                <a href="mailto:{{ section.settings.email }}" class="contact-section__value">{{ section.settings.email }}</a>
+              </div>
+            {%- endif -%}
+
+            {%- if section.settings.phone != blank -%}
+              <div class="contact-section__item">
+                <div class="contact-section__label">Phone</div>
+                <a href="tel:{{ section.settings.phone }}" class="contact-section__value">{{ section.settings.phone }}</a>
+              </div>
+            {%- endif -%}
+
+            {%- if section.settings.hours != blank -%}
+              <div class="contact-section__item">
+                <div class="contact-section__label">Working Hours</div>
+                <div class="contact-section__value">{{ section.settings.hours }}</div>
+              </div>
+            {%- endif -%}
+          </div>
+        </div>
+
+        <!-- Contact Form -->
+        <div class="contact-section__form-wrapper">
+          <h2 class="contact-section__subtitle">Send Message</h2>
+          
+          {%- form 'contact', id: 'ContactForm', class: 'contact-form' -%}
+            {%- if form.posted_successfully? -%}
+              <div class="contact-form__success">
+                Thank you for your message. We will respond shortly.
+              </div>
+            {%- endif -%}
+
+            {%- if form.errors -%}
+              <div class="contact-form__error">
+                {{ form.errors | default_errors }}
+              </div>
+            {%- endif -%}
+
+            <div class="contact-form__field">
+              <label for="ContactForm-name" class="contact-form__label">Name</label>
+              <input type="text" id="ContactForm-name" name="contact[Name]" class="contact-form__input" required>
+            </div>
+
+            <div class="contact-form__field">
+              <label for="ContactForm-email" class="contact-form__label">Email</label>
+              <input type="email" id="ContactForm-email" name="contact[email]" class="contact-form__input" autocapitalize="off" required>
+            </div>
+
+            <div class="contact-form__field">
+              <label for="ContactForm-body" class="contact-form__label">Message</label>
+              <textarea id="ContactForm-body" name="contact[Message]" rows="5" class="contact-form__textarea" required></textarea>
+            </div>
+
+            <button type="submit" class="contact-form__submit btn btn-primary">
+              Send Message
+            </button>
+          {%- endform -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% style %}
+  .contact-section {
+    padding: 3rem 0;
+  }
+
+  .contact-section__wrapper {
+    max-width: 64rem;
+    margin: 0 auto;
+  }
+
+  .contact-section__header {
+    margin-bottom: 3rem;
+  }
+
+  .contact-section__title {
+    text-align: center;
+    font-size: 1.875rem;
+    font-family: 'Space Grotesk', monospace;
+    font-weight: 300;
+    color: #000;
+    letter-spacing: 0.1em;
+    line-height: 1;
+    padding: 2rem 0;
+  }
+
+  @media (min-width: 768px) {
+    .contact-section__title {
+      font-size: 2.25rem;
+    }
+  }
+
+  .contact-section__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  @media (min-width: 768px) {
+    .contact-section__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .contact-section__subtitle {
+    font-size: 1.25rem;
+    font-family: 'Space Grotesk', monospace;
+    font-weight: 300;
+    color: #000;
+    letter-spacing: 0.05em;
+    margin-bottom: 2rem;
+  }
+
+  .contact-section__details {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .contact-section__item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .contact-section__label {
+    font-size: 0.75rem;
+    font-family: 'Space Grotesk', monospace;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.3);
+  }
+
+  .contact-section__value {
+    font-size: 0.875rem;
+    color: rgba(0, 0, 0, 0.7);
+    font-weight: 300;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  a.contact-section__value:hover {
+    color: #000;
+  }
+
+  /* Form */
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .contact-form__field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .contact-form__label {
+    font-size: 0.75rem;
+    font-family: 'Space Grotesk', monospace;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.3);
+  }
+
+  .contact-form__input,
+  .contact-form__textarea {
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    font-weight: 300;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    background: #fff;
+    transition: border-color 0.3s ease;
+  }
+
+  .contact-form__input:focus,
+  .contact-form__textarea:focus {
+    outline: none;
+    border-color: rgba(0, 0, 0, 0.3);
+  }
+
+  .contact-form__textarea {
+    resize: none;
+  }
+
+  .contact-form__submit {
+    width: 100%;
+    padding: 1rem;
+    font-family: 'Space Grotesk', monospace;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .contact-form__success {
+    padding: 1rem;
+    background: #dcfce7;
+    color: #166534;
+    border-radius: 0.25rem;
+  }
+
+  .contact-form__error {
+    padding: 1rem;
+    background: #fee2e2;
+    color: #991b1b;
+    border-radius: 0.25rem;
+  }
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "Contact Form",
+  "tag": "section",
+  "class": "section-contact",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Contact Us"
+    },
+    {
+      "type": "text",
+      "id": "email",
+      "label": "Email",
+      "default": "info@vaikostore.com"
+    },
+    {
+      "type": "text",
+      "id": "phone",
+      "label": "Phone"
+    },
+    {
+      "type": "textarea",
+      "id": "hours",
+      "label": "Working Hours",
+      "default": "Mon-Fri: 9:00 - 18:00\nSat-Sun: 10:00 - 16:00"
+    }
+  ]
+}
+{% endschema %}
+

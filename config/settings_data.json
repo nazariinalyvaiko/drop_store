@@ -1,0 +1,39 @@
+{
+  "current": {
+    "colors_text": "#000000",
+    "colors_background_1": "#FFFFFF",
+    "colors_background_2": "#F5F5F5",
+    "colors_accent_1": "#000000",
+    "colors_accent_2": "#F97316",
+    "colors_solid_button_labels": "#FFFFFF",
+    "colors_outline_button_labels": "#000000",
+    "type_header_font": "space_grotesk_n4",
+    "type_body_font": "inter_n4",
+    "heading_scale": 100,
+    "body_scale": 100,
+    "page_width": 1200,
+    "cart_type": "drawer",
+    "predictive_search_enabled": true,
+    "predictive_search_show_vendor": false,
+    "predictive_search_show_price": true,
+    "sections": {
+      "header": {
+        "type": "header",
+        "settings": {
+          "logo_text_main": "VAIKO",
+          "logo_text_sub": "STORE",
+          "show_search": true
+        }
+      },
+      "footer": {
+        "type": "footer",
+        "settings": {
+          "logo_text_main": "VAIKO",
+          "logo_text_sub": "STORE",
+          "description": "Premium status store. Quality, status, exclusivity."
+        }
+      }
+    }
+  }
+}
+

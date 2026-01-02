@@ -1,0 +1,269 @@
+{%- liquid
+  assign products_per_page = section.settings.products_per_page | default: 12
+-%}
+
+<section class="collection-page" data-section-id="{{ section.id }}">
+  <div class="container">
+    <!-- Section Header -->
+    <div class="collection-page__header">
+      <div class="section-divider">
+        <div class="section-divider__line section-divider__line--short"></div>
+        <span class="section-divider__text">COLLECTION</span>
+        <div class="section-divider__line section-divider__line--long"></div>
+      </div>
+      
+      <h1 class="collection-page__title">
+        {{ collection.title }}
+      </h1>
+      
+      <div class="section-divider">
+        <div class="section-divider__line section-divider__line--long"></div>
+        <span class="section-divider__text">{{ collection.products_count }}</span>
+        <div class="section-divider__line section-divider__line--short"></div>
+      </div>
+    </div>
+
+    {%- if collection.description != blank -%}
+      <div class="collection-page__description">
+        {{ collection.description }}
+      </div>
+    {%- endif -%}
+
+    <!-- Toolbar -->
+    {%- if section.settings.enable_filtering or section.settings.enable_sorting -%}
+      <div class="collection-page__toolbar">
+        {%- if section.settings.enable_filtering -%}
+          <div class="collection-page__filters">
+            <!-- Filter implementation -->
+          </div>
+        {%- endif -%}
+
+        {%- if section.settings.enable_sorting -%}
+          <div class="collection-page__sort">
+            <label for="sort-by" class="collection-page__sort-label">Sort by:</label>
+            <select id="sort-by" class="collection-page__sort-select" data-collection-sort>
+              {%- for option in collection.sort_options -%}
+                <option value="{{ option.value }}" {% if option.value == collection.sort_by %}selected{% endif %}>
+                  {{ option.name }}
+                </option>
+              {%- endfor -%}
+            </select>
+          </div>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <!-- Products Grid -->
+    {%- paginate collection.products by products_per_page -%}
+      {%- if collection.products.size > 0 -%}
+        <div class="collection-page__grid">
+          {%- for product in collection.products -%}
+            {% render 'product-card', product: product, index: forloop.index %}
+          {%- endfor -%}
+        </div>
+
+        {%- if paginate.pages > 1 -%}
+          <div class="collection-page__pagination">
+            <nav class="pagination" role="navigation" aria-label="Pagination">
+              {%- if paginate.previous -%}
+                <a href="{{ paginate.previous.url }}" class="pagination__link pagination__link--prev">
+                  ← Previous
+                </a>
+              {%- endif -%}
+
+              <span class="pagination__current">
+                Page {{ paginate.current_page }} / {{ paginate.pages }}
+              </span>
+
+              {%- if paginate.next -%}
+                <a href="{{ paginate.next.url }}" class="pagination__link pagination__link--next">
+                  Next →
+                </a>
+              {%- endif -%}
+            </nav>
+          </div>
+        {%- endif -%}
+      {%- else -%}
+        <div class="collection-page__empty">
+          <p>No products found in this collection.</p>
+        </div>
+      {%- endif -%}
+    {%- endpaginate -%}
+  </div>
+</section>
+
+{% style %}
+  .collection-page {
+    padding: 3rem 0;
+  }
+
+  .collection-page__header {
+    margin-bottom: 3rem;
+  }
+
+  .collection-page__title {
+    text-align: center;
+    font-size: 1.875rem;
+    font-family: 'Space Grotesk', monospace;
+    font-weight: 300;
+    color: #000;
+    letter-spacing: 0.1em;
+    line-height: 1;
+    padding: 2rem 0;
+  }
+
+  @media (min-width: 768px) {
+    .collection-page__title {
+      font-size: 2.25rem;
+    }
+  }
+
+  .collection-page__description {
+    max-width: 40rem;
+    margin: 0 auto 3rem;
+    text-align: center;
+    font-size: 1rem;
+    color: rgba(0, 0, 0, 0.6);
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  .collection-page__toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .collection-page__sort {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .collection-page__sort-label {
+    font-size: 0.875rem;
+    color: rgba(0, 0, 0, 0.6);
+    font-weight: 300;
+  }
+
+  .collection-page__sort-select {
+    padding: 0.5rem 2rem 0.5rem 0.75rem;
+    font-size: 0.875rem;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    background: #fff;
+    cursor: pointer;
+  }
+
+  .collection-page__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 640px) {
+    .collection-page__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .collection-page__grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .collection-page__pagination {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+  }
+
+  .pagination__link {
+    font-size: 0.875rem;
+    color: rgba(0, 0, 0, 0.6);
+    text-decoration: none;
+    font-weight: 300;
+    transition: color 0.3s ease;
+  }
+
+  .pagination__link:hover {
+    color: #000;
+  }
+
+  .pagination__current {
+    font-size: 0.875rem;
+    font-family: 'Space Grotesk', monospace;
+    color: rgba(0, 0, 0, 0.4);
+  }
+
+  .collection-page__empty {
+    text-align: center;
+    padding: 4rem 0;
+    color: rgba(0, 0, 0, 0.5);
+  }
+{% endstyle %}
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const sortSelect = document.querySelector('[data-collection-sort]');
+    if (sortSelect) {
+      sortSelect.addEventListener('change', function() {
+        const url = new URL(window.location.href);
+        url.searchParams.set('sort_by', this.value);
+        window.location.href = url.toString();
+      });
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Collection Products",
+  "tag": "section",
+  "class": "section-main-collection",
+  "settings": [
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "label": "Products per page",
+      "min": 6,
+      "max": 24,
+      "step": 3,
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Desktop columns",
+      "min": 2,
+      "max": 5,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_filtering",
+      "label": "Enable filtering",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sorting",
+      "label": "Enable sorting",
+      "default": true
+    }
+  ]
+}
+{% endschema %}
+

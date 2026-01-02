@@ -1,0 +1,49 @@
+{
+  "type": "header",
+  "name": "Header group",
+  "sections": {
+    "announcement-bar": {
+      "type": "announcement-bar",
+      "blocks": {
+        "announcement-0": {
+          "type": "announcement",
+          "settings": {
+            "text": "Free Shipping on Orders $100+"
+          }
+        },
+        "announcement-1": {
+          "type": "announcement",
+          "settings": {
+            "text": "Fast Processing 24-48h"
+          }
+        },
+        "announcement-2": {
+          "type": "announcement",
+          "settings": {
+            "text": "Premium Quality Guaranteed"
+          }
+        },
+        "announcement-3": {
+          "type": "announcement",
+          "settings": {
+            "text": "24/7 Support"
+          }
+        }
+      },
+      "block_order": ["announcement-0", "announcement-1", "announcement-2", "announcement-3"],
+      "settings": {
+        "show_announcement": true
+      }
+    },
+    "header": {
+      "type": "header",
+      "settings": {
+        "logo_text_main": "VAIKO",
+        "logo_text_sub": "STORE",
+        "show_search": true
+      }
+    }
+  },
+  "order": ["announcement-bar", "header"]
+}
+

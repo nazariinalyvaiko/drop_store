@@ -1,0 +1,208 @@
+{%- liquid
+  assign products_to_display = section.settings.products_to_show | default: 6
+-%}
+
+<section class="featured-products" data-section-id="{{ section.id }}">
+  <div class="container">
+    <!-- Section Header -->
+    <div class="featured-products__header">
+      <div class="section-divider">
+        <div class="section-divider__line section-divider__line--short"></div>
+        <span class="section-divider__text">{{ section.settings.section_number | default: '01' }}</span>
+        <div class="section-divider__line section-divider__line--long"></div>
+      </div>
+      
+      <h2 class="featured-products__title">
+        {{ section.settings.heading | default: 'PRODUCTS' }}
+      </h2>
+      
+      <div class="section-divider">
+        <div class="section-divider__line section-divider__line--long"></div>
+        <span class="section-divider__text">
+          {%- if section.settings.collection != blank -%}
+            {{ section.settings.collection.products_count }}
+          {%- else -%}
+            {{ products_to_display }}
+          {%- endif -%}
+        </span>
+        <div class="section-divider__line section-divider__line--short"></div>
+      </div>
+    </div>
+
+    <!-- Products Grid -->
+    <div class="featured-products__grid">
+      {%- if section.settings.collection != blank -%}
+        {%- for product in section.settings.collection.products limit: products_to_display -%}
+          {% render 'product-card', product: product, index: forloop.index %}
+        {%- endfor -%}
+      {%- else -%}
+        {%- for i in (1..products_to_display) -%}
+          <div class="product-card">
+            <div class="product-card__media">
+              {{ 'product-1' | placeholder_svg_tag: 'product-card__placeholder' }}
+            </div>
+            <div class="product-card__content">
+              <h3 class="product-card__title">Sample Product {{ i }}</h3>
+              <p class="product-card__description">This is a sample product description.</p>
+              <div class="product-card__footer">
+                <span class="product-card__price">$99.00</span>
+                <button class="btn btn-primary" disabled>Add to Cart</button>
+              </div>
+            </div>
+          </div>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+
+    <!-- View All Button -->
+    {%- if section.settings.show_view_all -%}
+      <div class="featured-products__footer">
+        <a href="{{ section.settings.collection.url | default: routes.collections_url }}" class="featured-products__view-all">
+          <span>{{ section.settings.view_all_label | default: 'VIEW ALL' }}</span>
+          <span class="featured-products__view-all-arrow">→</span>
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% style %}
+  .featured-products {
+    padding: 5rem 0;
+    background: #fff;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+  }
+
+  .featured-products__header {
+    margin-bottom: 4rem;
+  }
+
+  .featured-products__title {
+    text-align: center;
+    font-size: 1.875rem;
+    font-family: 'Space Grotesk', monospace;
+    font-weight: 300;
+    color: #000;
+    letter-spacing: 0.1em;
+    line-height: 1;
+    padding: 2rem 0;
+  }
+
+  @media (min-width: 768px) {
+    .featured-products__title {
+      font-size: 2.25rem;
+    }
+  }
+
+  .featured-products__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+  }
+
+  @media (min-width: 640px) {
+    .featured-products__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .featured-products__grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .featured-products__footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 3rem;
+  }
+
+  .featured-products__view-all {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 1.25rem 2.5rem;
+    font-size: 0.875rem;
+    font-family: 'Space Grotesk', monospace;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #000;
+    text-decoration: none;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    background: #fff;
+    transition: all 0.3s ease;
+  }
+
+  .featured-products__view-all:hover {
+    border-color: #000;
+    background: rgba(0, 0, 0, 0.02);
+  }
+
+  .featured-products__view-all-arrow {
+    color: rgba(0, 0, 0, 0.4);
+    transition: all 0.3s ease;
+  }
+
+  .featured-products__view-all:hover .featured-products__view-all-arrow {
+    color: #000;
+    transform: translateX(0.25rem);
+  }
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "Featured Products",
+  "tag": "section",
+  "class": "section-featured-products",
+  "settings": [
+    {
+      "type": "text",
+      "id": "section_number",
+      "label": "Section Number",
+      "default": "01"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "PRODUCTS"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "label": "Products to show",
+      "min": 3,
+      "max": 12,
+      "step": 1,
+      "default": 6
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_all",
+      "label": "Show 'View All' button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "view_all_label",
+      "label": "View All Label",
+      "default": "VIEW ALL"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured Products"
+    }
+  ]
+}
+{% endschema %}
+

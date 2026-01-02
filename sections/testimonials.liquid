@@ -1,0 +1,342 @@
+<section class="testimonials" data-section-id="{{ section.id }}">
+  <div class="container">
+    <!-- Section Header -->
+    <div class="testimonials__header">
+      <div class="section-divider">
+        <div class="section-divider__line section-divider__line--short"></div>
+        <span class="section-divider__text">{{ section.settings.section_number | default: '03' }}</span>
+        <div class="section-divider__line section-divider__line--long"></div>
+      </div>
+      
+      <h2 class="testimonials__title">
+        {{ section.settings.heading | default: 'REVIEWS' }}
+      </h2>
+      
+      <div class="section-divider">
+        <div class="section-divider__line section-divider__line--long"></div>
+        <span class="section-divider__text">{{ section.blocks.size }}</span>
+        <div class="section-divider__line section-divider__line--short"></div>
+      </div>
+    </div>
+
+    <!-- Testimonials Grid -->
+    <div class="testimonials__grid">
+      {%- for block in section.blocks -%}
+        <div class="testimonial" {{ block.shopify_attributes }}>
+          <!-- Rating -->
+          <div class="testimonial__rating">
+            {%- assign rating = block.settings.rating | default: 5 -%}
+            {%- for i in (1..5) -%}
+              <span class="testimonial__star {% if i <= rating %}testimonial__star--filled{% endif %}">★</span>
+            {%- endfor -%}
+          </div>
+
+          <!-- Text -->
+          <blockquote class="testimonial__quote">
+            <p>"{{ block.settings.text | default: 'This is an amazing product. Highly recommended!' }}"</p>
+          </blockquote>
+
+          <!-- Author -->
+          <div class="testimonial__author">
+            <div class="testimonial__avatar">
+              {%- if block.settings.image != blank -%}
+                <img 
+                  src="{{ block.settings.image | image_url: width: 96 }}"
+                  alt="{{ block.settings.name | escape }}"
+                  loading="lazy"
+                  class="testimonial__avatar-image"
+                >
+              {%- else -%}
+                <div class="testimonial__avatar-placeholder">
+                  {{ block.settings.name | slice: 0 | upcase }}
+                </div>
+              {%- endif -%}
+            </div>
+            <div class="testimonial__info">
+              <div class="testimonial__name">{{ block.settings.name | default: 'Customer Name' }}</div>
+              <div class="testimonial__location">{{ block.settings.location | default: 'Location' }}</div>
+              {%- if block.settings.product != blank -%}
+                <div class="testimonial__product">{{ block.settings.product }}</div>
+              {%- endif -%}
+            </div>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% style %}
+  .testimonials {
+    padding: 6rem 0;
+    background: #fff;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+  }
+
+  .testimonials__header {
+    margin-bottom: 5rem;
+  }
+
+  .testimonials__title {
+    text-align: center;
+    font-size: 1.875rem;
+    font-family: 'Space Grotesk', monospace;
+    font-weight: 300;
+    color: #000;
+    letter-spacing: 0.1em;
+    line-height: 1;
+    padding: 2rem 0;
+  }
+
+  @media (min-width: 768px) {
+    .testimonials__title {
+      font-size: 2.25rem;
+    }
+  }
+
+  .testimonials__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  @media (min-width: 768px) {
+    .testimonials__grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem 3rem;
+    }
+  }
+
+  .testimonial {
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    background: #fff;
+    transition: border-color 0.3s ease;
+  }
+
+  @media (min-width: 1024px) {
+    .testimonial {
+      padding: 2.5rem;
+    }
+  }
+
+  .testimonial:hover {
+    border-color: rgba(0, 0, 0, 0.3);
+  }
+
+  /* Rating */
+  .testimonial__rating {
+    display: flex;
+    align-items: center;
+    gap: 0.125rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .testimonial__star {
+    font-size: 1.125rem;
+    line-height: 1;
+    color: rgba(0, 0, 0, 0.1);
+  }
+
+  .testimonial__star--filled {
+    color: #facc15;
+  }
+
+  /* Quote */
+  .testimonial__quote {
+    flex-grow: 1;
+    margin-bottom: 2rem;
+  }
+
+  .testimonial__quote p {
+    font-size: 1rem;
+    color: rgba(0, 0, 0, 0.7);
+    line-height: 1.7;
+    font-weight: 300;
+    font-style: italic;
+  }
+
+  @media (min-width: 1024px) {
+    .testimonial__quote p {
+      font-size: 1.125rem;
+    }
+  }
+
+  /* Author */
+  .testimonial__author {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+  }
+
+  .testimonial__avatar {
+    position: relative;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 9999px;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.05);
+    flex-shrink: 0;
+  }
+
+  .testimonial__avatar-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .testimonial__avatar-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Space Grotesk', monospace;
+    font-size: 1.25rem;
+    color: rgba(0, 0, 0, 0.4);
+  }
+
+  .testimonial__info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .testimonial__name {
+    font-size: 0.875rem;
+    font-family: 'Space Grotesk', monospace;
+    font-weight: 300;
+    color: #000;
+    letter-spacing: 0.05em;
+  }
+
+  .testimonial__location {
+    font-size: 0.75rem;
+    color: rgba(0, 0, 0, 0.4);
+    font-weight: 300;
+    margin-top: 0.25rem;
+  }
+
+  .testimonial__product {
+    font-size: 0.75rem;
+    font-family: 'Space Grotesk', monospace;
+    color: rgba(0, 0, 0, 0.3);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-top: 0.5rem;
+  }
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "Testimonials",
+  "tag": "section",
+  "class": "section-testimonials",
+  "settings": [
+    {
+      "type": "text",
+      "id": "section_number",
+      "label": "Section Number",
+      "default": "03"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "REVIEWS"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Customer Photo"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "Alex K."
+        },
+        {
+          "type": "text",
+          "id": "location",
+          "label": "Location",
+          "default": "Kyiv, Ukraine"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Review Text",
+          "default": "Excellent quality and fast delivery. Very satisfied with the purchase!"
+        },
+        {
+          "type": "range",
+          "id": "rating",
+          "label": "Rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 5
+        },
+        {
+          "type": "text",
+          "id": "product",
+          "label": "Product Name (optional)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testimonials",
+      "blocks": [
+        {
+          "type": "testimonial",
+          "settings": {
+            "name": "Alex K.",
+            "location": "Kyiv, Ukraine",
+            "text": "Excellent quality and fast delivery. Very satisfied with the purchase!",
+            "rating": 4
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "name": "Maria S.",
+            "location": "London, UK",
+            "text": "Stylish packaging and product matches the description. Will order again!",
+            "rating": 5
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "name": "John D.",
+            "location": "New York, USA",
+            "text": "Great store with excellent customer service. Highly recommend!",
+            "rating": 5
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "name": "Sophie L.",
+            "location": "Paris, France",
+            "text": "The product exceeded my expectations. Very happy with my purchase!",
+            "rating": 4
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+

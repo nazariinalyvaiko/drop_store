@@ -1,0 +1,263 @@
+{%- liquid
+  assign products_per_page = section.settings.products_per_page | default: 12
+-%}
+
+<section class="search-page" data-section-id="{{ section.id }}">
+  <div class="container">
+    <!-- Header -->
+    <div class="search-page__header">
+      <div class="section-divider">
+        <div class="section-divider__line section-divider__line--short"></div>
+        <span class="section-divider__text">SEARCH</span>
+        <div class="section-divider__line section-divider__line--long"></div>
+      </div>
+      
+      <h1 class="search-page__title">
+        {%- if search.performed -%}
+          {%- if search.results_count == 0 -%}
+            No results for "{{ search.terms }}"
+          {%- else -%}
+            {{ search.results_count }} results for "{{ search.terms }}"
+          {%- endif -%}
+        {%- else -%}
+          Search
+        {%- endif -%}
+      </h1>
+    </div>
+
+    <!-- Search Form -->
+    <div class="search-page__form-wrapper">
+      <form action="{{ routes.search_url }}" method="get" class="search-page__form">
+        <div class="search-page__input-wrapper">
+          <svg class="search-page__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/>
+            <path d="m21 21-4.35-4.35"/>
+          </svg>
+          <input 
+            type="search" 
+            name="q" 
+            value="{{ search.terms | escape }}"
+            placeholder="Search products..."
+            class="search-page__input"
+          >
+        </div>
+        <input type="hidden" name="type" value="product">
+        <button type="submit" class="search-page__submit btn btn-primary">
+          Search
+        </button>
+      </form>
+    </div>
+
+    <!-- Results -->
+    {%- if search.performed -%}
+      {%- paginate search.results by products_per_page -%}
+        {%- if search.results.size > 0 -%}
+          <div class="search-page__grid">
+            {%- for item in search.results -%}
+              {%- if item.object_type == 'product' -%}
+                {% render 'product-card', product: item, index: forloop.index %}
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+
+          {%- if paginate.pages > 1 -%}
+            <div class="search-page__pagination">
+              <nav class="pagination" role="navigation" aria-label="Pagination">
+                {%- if paginate.previous -%}
+                  <a href="{{ paginate.previous.url }}" class="pagination__link pagination__link--prev">
+                    ← Previous
+                  </a>
+                {%- endif -%}
+
+                <span class="pagination__current">
+                  Page {{ paginate.current_page }} / {{ paginate.pages }}
+                </span>
+
+                {%- if paginate.next -%}
+                  <a href="{{ paginate.next.url }}" class="pagination__link pagination__link--next">
+                    Next →
+                  </a>
+                {%- endif -%}
+              </nav>
+            </div>
+          {%- endif -%}
+        {%- else -%}
+          <div class="search-page__empty">
+            <p>No products found. Try a different search term.</p>
+            <a href="{{ routes.all_products_collection_url }}" class="search-page__browse-btn btn btn-secondary">
+              Browse All Products
+            </a>
+          </div>
+        {%- endif -%}
+      {%- endpaginate -%}
+    {%- endif -%}
+  </div>
+</section>
+
+{% style %}
+  .search-page {
+    padding: 2rem 0 4rem;
+  }
+
+  .search-page__header {
+    margin-bottom: 2rem;
+  }
+
+  .search-page__title {
+    font-size: 1.5rem;
+    font-family: 'Space Grotesk', monospace;
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    color: #000;
+    text-align: center;
+    padding: 1.5rem 0;
+  }
+
+  @media (min-width: 768px) {
+    .search-page__title {
+      font-size: 2rem;
+    }
+  }
+
+  /* Form */
+  .search-page__form-wrapper {
+    max-width: 40rem;
+    margin: 0 auto 3rem;
+  }
+
+  .search-page__form {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .search-page__input-wrapper {
+    flex: 1;
+    position: relative;
+  }
+
+  .search-page__icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(0, 0, 0, 0.3);
+    pointer-events: none;
+  }
+
+  .search-page__input {
+    width: 100%;
+    padding: 0.875rem 1rem 0.875rem 3rem;
+    font-size: 1rem;
+    font-weight: 300;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    background: #fff;
+    transition: border-color 0.3s ease;
+  }
+
+  .search-page__input:focus {
+    outline: none;
+    border-color: rgba(0, 0, 0, 0.3);
+  }
+
+  .search-page__submit {
+    padding: 0.875rem 2rem;
+    font-family: 'Space Grotesk', monospace;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  /* Grid */
+  .search-page__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .search-page__grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .search-page__grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  /* Pagination */
+  .search-page__pagination {
+    margin-top: 3rem;
+  }
+
+  .pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+  }
+
+  .pagination__link {
+    font-size: 0.875rem;
+    color: rgba(0, 0, 0, 0.6);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .pagination__link:hover {
+    color: #000;
+  }
+
+  .pagination__current {
+    font-size: 0.875rem;
+    color: rgba(0, 0, 0, 0.4);
+  }
+
+  /* Empty */
+  .search-page__empty {
+    text-align: center;
+    padding: 3rem;
+  }
+
+  .search-page__empty p {
+    color: rgba(0, 0, 0, 0.5);
+    margin-bottom: 1.5rem;
+  }
+
+  .search-page__browse-btn {
+    display: inline-flex;
+    padding: 0.75rem 1.5rem;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    color: #000;
+    text-decoration: none;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+  }
+
+  .search-page__browse-btn:hover {
+    background: #000;
+    color: #fff;
+  }
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "Search Results",
+  "settings": [
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "min": 4,
+      "max": 24,
+      "step": 4,
+      "default": 12,
+      "label": "Products per page"
+    }
+  ]
+}
+{% endschema %}
+
