@@ -1,0 +1,97 @@
+{%- comment -%}
+  Divider - Decorative line divider
+{%- endcomment -%}
+
+<div class="divider-section" data-section-id="{{ section.id }}">
+  <div class="container">
+    <div class="divider-section__inner">
+      <div class="divider-section__line"></div>
+      {%- if section.settings.text != blank -%}
+        <span class="divider-section__text">{{ section.settings.text }}</span>
+        <div class="divider-section__line"></div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% style %}
+  .divider-section {
+    padding: {{ section.settings.padding }}px 0;
+    background: {{ section.settings.bg_color }};
+  }
+
+  .divider-section__inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .divider-section__line {
+    flex: 1;
+    max-width: {{ section.settings.line_width }}px;
+    height: 1px;
+    background: {{ section.settings.line_color }};
+  }
+
+  .divider-section__text {
+    font-size: 0.6875rem;
+    font-family: 'Space Grotesk', monospace;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.3);
+  }
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "Divider",
+  "tag": "section",
+  "class": "section-divider-line",
+  "settings": [
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Center Text"
+    },
+    {
+      "type": "range",
+      "id": "line_width",
+      "label": "Line Width",
+      "min": 50,
+      "max": 500,
+      "step": 50,
+      "default": 200,
+      "unit": "px"
+    },
+    {
+      "type": "color",
+      "id": "line_color",
+      "label": "Line Color",
+      "default": "rgba(0,0,0,0.1)"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "padding",
+      "label": "Padding",
+      "min": 10,
+      "max": 80,
+      "step": 10,
+      "default": 30,
+      "unit": "px"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Divider"
+    }
+  ]
+}
+{% endschema %}
+

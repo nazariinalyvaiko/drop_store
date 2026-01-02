@@ -1,0 +1,170 @@
+{%- comment -%}
+  Simple Hero - Compact hero with heading and CTA
+{%- endcomment -%}
+
+<section class="hero-simple" data-section-id="{{ section.id }}">
+  <div class="container">
+    <div class="hero-simple__inner">
+      {%- if section.settings.label != blank -%}
+        <span class="hero-simple__label">{{ section.settings.label }}</span>
+      {%- endif -%}
+      
+      <h1 class="hero-simple__heading">{{ section.settings.heading }}</h1>
+      
+      {%- if section.settings.text != blank -%}
+        <p class="hero-simple__text">{{ section.settings.text }}</p>
+      {%- endif -%}
+      
+      {%- if section.settings.button_label != blank -%}
+        <div class="hero-simple__actions">
+          <a href="{{ section.settings.button_link }}" class="hero-simple__btn">
+            {{ section.settings.button_label }}
+            <span>→</span>
+          </a>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% style %}
+  .hero-simple {
+    padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px;
+    background: {{ section.settings.bg_color }};
+    text-align: {{ section.settings.text_align }};
+  }
+
+  .hero-simple__inner {
+    max-width: 48rem;
+    margin: 0 auto;
+  }
+
+  .hero-simple__label {
+    display: inline-block;
+    font-size: 0.625rem;
+    font-family: 'Space Grotesk', monospace;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.4);
+    margin-bottom: 1rem;
+  }
+
+  .hero-simple__heading {
+    font-size: clamp(1.75rem, 4vw, 3rem);
+    font-weight: 300;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: #000;
+    margin-bottom: 1rem;
+  }
+
+  .hero-simple__text {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: rgba(0, 0, 0, 0.5);
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-simple__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background: #000;
+    color: #fff;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background 0.3s;
+  }
+
+  .hero-simple__btn:hover {
+    background: rgba(0, 0, 0, 0.8);
+  }
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "Hero Simple",
+  "tag": "section",
+  "class": "section-hero-simple",
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Label",
+      "default": "Est. 2026"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Best for You"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Text",
+      "default": "Smart devices for modern life."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Label",
+      "default": "Explore"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "select",
+      "id": "text_align",
+      "label": "Text Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 100,
+      "step": 10,
+      "default": 60,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 100,
+      "step": 10,
+      "default": 60,
+      "unit": "px"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero Simple"
+    }
+  ]
+}
+{% endschema %}
+
