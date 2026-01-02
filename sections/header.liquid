@@ -25,10 +25,17 @@
           </a>
         {%- endfor -%}
         {%- if about_found == false -%}
-          <a href="/pages/about" class="header__menu-link">
-            <span>About</span>
-            <span class="header__menu-link-underline"></span>
-          </a>
+          {%- if pages.about -%}
+            <a href="{{ pages.about.url }}" class="header__menu-link">
+              <span>About</span>
+              <span class="header__menu-link-underline"></span>
+            </a>
+          {%- else -%}
+            <a href="/#about" class="header__menu-link">
+              <span>About</span>
+              <span class="header__menu-link-underline"></span>
+            </a>
+          {%- endif -%}
         {%- endif -%}
       </div>
 
