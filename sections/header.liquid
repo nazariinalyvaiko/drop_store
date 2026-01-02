@@ -24,18 +24,11 @@
             <span class="header__menu-link-underline"></span>
           </a>
         {%- endfor -%}
-        {%- if about_found == false -%}
-          {%- if pages.about -%}
-            <a href="{{ pages.about.url }}" class="header__menu-link">
-              <span>About</span>
-              <span class="header__menu-link-underline"></span>
-            </a>
-          {%- else -%}
-            <a href="/#about" class="header__menu-link">
-              <span>About</span>
-              <span class="header__menu-link-underline"></span>
-            </a>
-          {%- endif -%}
+        {%- if about_found == false and pages.about -%}
+          <a href="{{ pages.about.url }}" class="header__menu-link">
+            <span>About</span>
+            <span class="header__menu-link-underline"></span>
+          </a>
         {%- endif -%}
       </div>
 
@@ -79,8 +72,8 @@
           {{ link.title }}
         </a>
       {%- endfor -%}
-      {%- if about_found == false -%}
-        <a href="/pages/about" class="header__mobile-link">About</a>
+      {%- if about_found == false and pages.about -%}
+        <a href="{{ pages.about.url }}" class="header__mobile-link">About</a>
       {%- endif -%}
     </div>
   </nav>
