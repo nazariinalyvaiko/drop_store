@@ -1,0 +1,561 @@
+{%- comment -%}
+  Main Index Section - Homepage Content
+{%- endcomment -%}
+
+<!-- Hero Section -->
+<section class="hero" data-section-id="{{ section.id }}">
+  <div class="hero__container">
+    <div class="hero__content">
+      <div class="hero__content-inner">
+        <div class="hero__label">
+          <span>{{ section.settings.label | default: 'Est. 2026' }}</span>
+        </div>
+        
+        <h1 class="hero__heading">
+          {{ section.settings.heading | default: 'Best for You' }}
+        </h1>
+        
+        <p class="hero__subtitle">
+          {{ section.settings.subtitle | default: 'Smart devices for modern life. Quality, status, exclusivity.' }}
+        </p>
+        
+        <div class="hero__actions">
+          {%- if section.settings.button_label != blank -%}
+            <a href="{{ section.settings.button_link | default: '/collections/all' }}" class="hero__btn hero__btn--primary">
+              <span>{{ section.settings.button_label }}</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14m-7-7 7 7-7 7"/>
+              </svg>
+            </a>
+          {%- endif -%}
+        </div>
+        
+        <div class="hero__tags">
+          <span class="hero__tag">AI Gadgets</span>
+          <span class="hero__tag-dot"></span>
+          <span class="hero__tag">Smart Home</span>
+          <span class="hero__tag-dot"></span>
+          <span class="hero__tag">Wearables</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="hero__bottom">
+    <div class="hero__bottom-container container">
+      <div class="hero__search">
+        <form action="{{ routes.search_url }}" method="get" class="hero__search-form">
+          <div class="hero__search-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"/>
+              <path d="m21 21-4.35-4.35"/>
+            </svg>
+          </div>
+          <input type="search" name="q" placeholder="Search products..." class="hero__search-input">
+          <button type="submit" class="hero__search-btn">Search</button>
+        </form>
+      </div>
+      
+      <div class="hero__info">
+        <div class="hero__info-item">
+          <div class="hero__info-label">Shipping</div>
+          <div class="hero__info-value">Worldwide</div>
+        </div>
+        <div class="hero__info-item">
+          <div class="hero__info-label">Support</div>
+          <div class="hero__info-value">24/7</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Featured Products -->
+<section class="featured-products">
+  <div class="container">
+    <div class="featured-products__header">
+      <div class="section-divider">
+        <div class="section-divider__line section-divider__line--short"></div>
+        <span class="section-divider__text">01</span>
+        <div class="section-divider__line section-divider__line--long"></div>
+      </div>
+      
+      <h2 class="featured-products__title">PRODUCTS</h2>
+      
+      <div class="section-divider">
+        <div class="section-divider__line section-divider__line--long"></div>
+        <span class="section-divider__text">6</span>
+        <div class="section-divider__line section-divider__line--short"></div>
+      </div>
+    </div>
+
+    <div class="featured-products__grid">
+      {%- for product in collections.all.products limit: 6 -%}
+        {% render 'product-card', product: product, index: forloop.index %}
+      {%- else -%}
+        {%- for i in (1..6) -%}
+          <div class="product-card">
+            <div class="product-card__media">
+              {{ 'product-1' | placeholder_svg_tag: 'product-card__placeholder' }}
+            </div>
+            <div class="product-card__content">
+              <h3 class="product-card__title">Sample Product {{ i }}</h3>
+              <p class="product-card__description">Premium quality product for modern lifestyle.</p>
+              <div class="product-card__footer">
+                <span class="product-card__price">$99.00</span>
+                <button class="btn btn-primary" disabled>Add</button>
+              </div>
+            </div>
+          </div>
+        {%- endfor -%}
+      {%- endfor -%}
+    </div>
+
+    <div class="featured-products__footer">
+      <a href="{{ routes.all_products_collection_url }}" class="featured-products__view-all">
+        <span>VIEW ALL</span>
+        <span class="featured-products__view-all-arrow">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials -->
+<section class="testimonials">
+  <div class="container">
+    <div class="testimonials__header">
+      <div class="section-divider">
+        <div class="section-divider__line section-divider__line--short"></div>
+        <span class="section-divider__text">02</span>
+        <div class="section-divider__line section-divider__line--long"></div>
+      </div>
+      
+      <h2 class="testimonials__title">REVIEWS</h2>
+      
+      <div class="section-divider">
+        <div class="section-divider__line section-divider__line--long"></div>
+        <span class="section-divider__text">4</span>
+        <div class="section-divider__line section-divider__line--short"></div>
+      </div>
+    </div>
+
+    <div class="testimonials__grid">
+      <div class="testimonial">
+        <div class="testimonial__rating">★★★★☆</div>
+        <p class="testimonial__text">"Excellent quality and fast delivery. Very satisfied with the purchase!"</p>
+        <div class="testimonial__author">
+          <span class="testimonial__name">Alex K.</span>
+          <span class="testimonial__location">Kyiv, Ukraine</span>
+        </div>
+      </div>
+      <div class="testimonial">
+        <div class="testimonial__rating">★★★★★</div>
+        <p class="testimonial__text">"Stylish packaging and product matches the description. Will order again!"</p>
+        <div class="testimonial__author">
+          <span class="testimonial__name">Maria S.</span>
+          <span class="testimonial__location">London, UK</span>
+        </div>
+      </div>
+      <div class="testimonial">
+        <div class="testimonial__rating">★★★★★</div>
+        <p class="testimonial__text">"Great store with excellent customer service. Highly recommend!"</p>
+        <div class="testimonial__author">
+          <span class="testimonial__name">John D.</span>
+          <span class="testimonial__location">New York, USA</span>
+        </div>
+      </div>
+      <div class="testimonial">
+        <div class="testimonial__rating">★★★★☆</div>
+        <p class="testimonial__text">"The product exceeded my expectations. Very happy with my purchase!"</p>
+        <div class="testimonial__author">
+          <span class="testimonial__name">Sophie L.</span>
+          <span class="testimonial__location">Paris, France</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% style %}
+  /* Hero */
+  .hero {
+    position: relative;
+    background: #fff;
+    overflow: hidden;
+  }
+
+  .hero__container {
+    display: flex;
+    flex-direction: column;
+    min-height: 50vh;
+    padding: 4rem 1.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .hero__container {
+      padding: 6rem 3rem;
+    }
+  }
+
+  .hero__content-inner {
+    max-width: 32rem;
+  }
+
+  .hero__label span {
+    font-size: 0.625rem;
+    font-family: 'Space Grotesk', monospace;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.4);
+  }
+
+  .hero__heading {
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin: 1.5rem 0;
+    color: #000;
+  }
+
+  .hero__subtitle {
+    font-size: 0.875rem;
+    line-height: 1.7;
+    max-width: 24rem;
+    color: rgba(0, 0, 0, 0.5);
+    margin-bottom: 2.5rem;
+  }
+
+  .hero__actions {
+    margin-bottom: 3rem;
+  }
+
+  .hero__btn--primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background: #000;
+    color: #fff;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background 0.3s ease;
+  }
+
+  .hero__btn--primary:hover {
+    background: rgba(0, 0, 0, 0.8);
+  }
+
+  .hero__tags {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .hero__tag {
+    font-size: 0.625rem;
+    font-family: 'Space Grotesk', monospace;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.3);
+  }
+
+  .hero__tag-dot {
+    width: 0.25rem;
+    height: 0.25rem;
+    border-radius: 9999px;
+    background: rgba(0, 0, 0, 0.2);
+  }
+
+  /* Bottom bar */
+  .hero__bottom {
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    background: #fff;
+  }
+
+  .hero__bottom-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1rem;
+  }
+
+  @media (min-width: 768px) {
+    .hero__bottom-container {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 3rem;
+    }
+  }
+
+  .hero__search {
+    flex: 1;
+    max-width: 28rem;
+  }
+
+  .hero__search-form {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .hero__search-icon {
+    position: absolute;
+    left: 1rem;
+    color: rgba(0, 0, 0, 0.3);
+    pointer-events: none;
+  }
+
+  .hero__search-input {
+    width: 100%;
+    padding: 0.875rem 6rem 0.875rem 2.75rem;
+    font-size: 0.875rem;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 4px;
+  }
+
+  .hero__search-input:focus {
+    outline: none;
+    border-color: rgba(0, 0, 0, 0.2);
+  }
+
+  .hero__search-btn {
+    position: absolute;
+    right: 0.375rem;
+    padding: 0.5rem 1.25rem;
+    background: #000;
+    color: #fff;
+    font-size: 0.6875rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+
+  .hero__info {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  .hero__info-label {
+    font-size: 0.5625rem;
+    font-family: 'Space Grotesk', monospace;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.3);
+  }
+
+  .hero__info-value {
+    font-size: 0.75rem;
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  /* Featured Products */
+  .featured-products {
+    padding: 5rem 0;
+    background: #fff;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+  }
+
+  .featured-products__header {
+    margin-bottom: 4rem;
+  }
+
+  .featured-products__title {
+    text-align: center;
+    font-size: 2rem;
+    font-family: 'Space Grotesk', monospace;
+    font-weight: 300;
+    color: #000;
+    letter-spacing: 0.1em;
+    padding: 2rem 0;
+  }
+
+  .featured-products__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+  }
+
+  @media (min-width: 768px) {
+    .featured-products__grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .featured-products__footer {
+    display: flex;
+    justify-content: center;
+    margin-top: 3rem;
+  }
+
+  .featured-products__view-all {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1.25rem 2.5rem;
+    font-size: 0.875rem;
+    font-family: 'Space Grotesk', monospace;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #000;
+    text-decoration: none;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+  }
+
+  .featured-products__view-all:hover {
+    border-color: #000;
+    background: rgba(0, 0, 0, 0.02);
+  }
+
+  /* Testimonials */
+  .testimonials {
+    padding: 5rem 0;
+    background: #fafafa;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+  }
+
+  .testimonials__header {
+    margin-bottom: 4rem;
+  }
+
+  .testimonials__title {
+    text-align: center;
+    font-size: 2rem;
+    font-family: 'Space Grotesk', monospace;
+    font-weight: 300;
+    color: #000;
+    letter-spacing: 0.1em;
+    padding: 2rem 0;
+  }
+
+  .testimonials__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  @media (min-width: 768px) {
+    .testimonials__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .testimonials__grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .testimonial {
+    padding: 2rem;
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .testimonial__rating {
+    font-size: 1rem;
+    color: #f59e0b;
+    margin-bottom: 1rem;
+  }
+
+  .testimonial__text {
+    font-size: 0.875rem;
+    color: rgba(0, 0, 0, 0.6);
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+    font-style: italic;
+  }
+
+  .testimonial__author {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .testimonial__name {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #000;
+  }
+
+  .testimonial__location {
+    font-size: 0.75rem;
+    color: rgba(0, 0, 0, 0.4);
+  }
+
+  /* Section Divider */
+  .section-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .section-divider__line {
+    height: 1px;
+    background: rgba(0, 0, 0, 0.1);
+  }
+
+  .section-divider__line--short {
+    width: 2rem;
+  }
+
+  .section-divider__line--long {
+    width: 6rem;
+  }
+
+  .section-divider__text {
+    font-size: 0.75rem;
+    font-family: 'Space Grotesk', monospace;
+    letter-spacing: 0.1em;
+    color: rgba(0, 0, 0, 0.3);
+  }
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "Homepage",
+  "tag": "div",
+  "class": "main-index",
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Top Label",
+      "default": "Est. 2026"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Best for You"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Smart devices for modern life. Quality, status, exclusivity."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Label",
+      "default": "Explore"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link",
+      "default": "/collections/all"
+    }
+  ]
+}
+{% endschema %}
+
