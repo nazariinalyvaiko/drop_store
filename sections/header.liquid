@@ -19,7 +19,19 @@
 
       <div class="header__menu">
         {%- for link in section.settings.menu.links -%}
-          <a href="{{ link.url }}" class="header__menu-link{% if link.active %} header__menu-link--active{% endif %}">
+          {%- if link.title contains 'About' or link.title contains 'Про' -%}
+            {%- if pages.about -%}
+              {%- assign link_href = pages.about.url -%}
+            {%- else -%}
+              {%- assign link_href = link.url -%}
+            {%- endif -%}
+          {%- elsif link.url contains '/pages/about' or link.url contains '/pages/about-us' -%}
+            {%- assign link_href = link.url -%}
+          {%- else -%}
+            {%- assign link_href = link.url -%}
+          {%- endif -%}
+
+          <a href="{{ link_href }}" class="header__menu-link{% if link.active %} header__menu-link--active{% endif %}">
             <span>{{ link.title }}</span>
             <span class="header__menu-link-underline"></span>
           </a>
@@ -68,7 +80,19 @@
     <!-- Mobile Menu -->
     <div class="header__mobile-menu" data-mobile-menu>
       {%- for link in section.settings.menu.links -%}
-        <a href="{{ link.url }}" class="header__mobile-link{% if link.active %} header__mobile-link--active{% endif %}">
+        {%- if link.title contains 'About' or link.title contains 'Про' -%}
+          {%- if pages.about -%}
+            {%- assign link_href = pages.about.url -%}
+          {%- else -%}
+            {%- assign link_href = link.url -%}
+          {%- endif -%}
+        {%- elsif link.url contains '/pages/about' or link.url contains '/pages/about-us' -%}
+          {%- assign link_href = link.url -%}
+        {%- else -%}
+          {%- assign link_href = link.url -%}
+        {%- endif -%}
+
+        <a href="{{ link_href }}" class="header__mobile-link{% if link.active %} header__mobile-link--active{% endif %}">
           {{ link.title }}
         </a>
       {%- endfor -%}
