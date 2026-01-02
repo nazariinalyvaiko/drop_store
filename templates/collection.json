@@ -25,7 +25,7 @@
       "type": "main-collection",
       "settings": {
         "show_heading": false,
-        "products_per_page": 12,
+        "products_per_page": 24,
         "columns_desktop": 3,
         "enable_filtering": false,
         "enable_sorting": false

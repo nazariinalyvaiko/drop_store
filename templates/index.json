@@ -32,6 +32,7 @@
           "type": "collection",
           "settings": {
             "collection": "",
+            "image": "shopify://shop_images/laptop-on-desk.jpg",
             "title": "",
             "text": ""
           }
@@ -40,6 +41,7 @@
           "type": "collection",
           "settings": {
             "collection": "",
+            "image": "shopify://shop_images/two-red-cocktails-on-a-tray.jpg",
             "title": "",
             "text": ""
           }
@@ -48,6 +50,7 @@
           "type": "collection",
           "settings": {
             "collection": "",
+            "image": "shopify://shop_images/cafe-cup-on-wood-table.jpg",
             "title": "",
             "text": ""
           }
@@ -83,6 +86,7 @@
       "type": "section-image-text",
       "name": "Image + Text",
       "settings": {
+        "image": "shopify://shop_images/a-hand-removes-a-sweater-from-a-clothing-rack.jpg",
         "image_position": "left",
         "label": "About",
         "heading": "Our Story",
@@ -98,6 +102,7 @@
       "type": "section-image-text",
       "name": "Image + Text",
       "settings": {
+        "image": "shopify://shop_images/silver-lamp-on-a-white-table-next-to-books.jpg",
         "image_position": "right",
         "label": "About",
         "heading": "Our Story",
@@ -113,6 +118,7 @@
       "type": "section-image-text",
       "name": "Image + Text",
       "settings": {
+        "image": "shopify://shop_images/retail-shopping-package.jpg",
         "image_position": "left",
         "label": "About",
         "heading": "Our Story",
@@ -142,7 +148,7 @@
             "name": "Maria S.",
             "location": "London, UK",
             "text": "Stylish packaging and product matches the description. Will order again!",
-            "rating": 5
+            "rating": 4
           }
         },
         "testimonial_U3zVRn": {
