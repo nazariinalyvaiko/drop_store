@@ -9,6 +9,14 @@
       </a>
 
       <!-- Desktop Navigation -->
+      {%- comment -%} If site menu doesn't have an About page link, render a fallback link to /pages/about {%- endcomment -%}
+      {%- assign about_found = false -%}
+      {%- for link in section.settings.menu.links -%}
+        {%- if link.url contains '/pages/about' or link.url contains '/pages/about-us' or link.title contains 'About' or link.title contains 'Про' -%}
+          {%- assign about_found = true -%}
+        {%- endif -%}
+      {%- endfor -%}
+
       <div class="header__menu">
         {%- for link in section.settings.menu.links -%}
           <a href="{{ link.url }}" class="header__menu-link{% if link.active %} header__menu-link--active{% endif %}">
@@ -16,6 +24,12 @@
             <span class="header__menu-link-underline"></span>
           </a>
         {%- endfor -%}
+        {%- if about_found == false -%}
+          <a href="/pages/about" class="header__menu-link">
+            <span>About</span>
+            <span class="header__menu-link-underline"></span>
+          </a>
+        {%- endif -%}
       </div>
 
       <!-- Actions -->
@@ -58,6 +72,9 @@
           {{ link.title }}
         </a>
       {%- endfor -%}
+      {%- if about_found == false -%}
+        <a href="/pages/about" class="header__mobile-link">About</a>
+      {%- endif -%}
     </div>
   </nav>
 </header>
