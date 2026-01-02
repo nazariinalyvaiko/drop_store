@@ -1,62 +1,5 @@
 {
   "sections": {
-    "announcement-bar": {
-      "type": "announcement-bar",
-      "blocks": {
-        "announcement-0": {
-          "type": "announcement",
-          "settings": {
-            "text": "Free Shipping on Orders $100+"
-          }
-        },
-        "announcement-1": {
-          "type": "announcement",
-          "settings": {
-            "text": "Fast Processing 24-48h"
-          }
-        },
-        "announcement-2": {
-          "type": "announcement",
-          "settings": {
-            "text": "Premium Quality Guaranteed"
-          }
-        },
-        "announcement-3": {
-          "type": "announcement",
-          "settings": {
-            "text": "Secure Payment"
-          }
-        },
-        "announcement-4": {
-          "type": "announcement",
-          "settings": {
-            "text": "100% Quality Guarantee"
-          }
-        },
-        "announcement-5": {
-          "type": "announcement",
-          "settings": {
-            "text": "24/7 Support"
-          }
-        },
-        "announcement-6": {
-          "type": "announcement",
-          "settings": {
-            "text": "Exclusive Collections"
-          }
-        },
-        "announcement-7": {
-          "type": "announcement",
-          "settings": {
-            "text": "Easy Returns"
-          }
-        }
-      },
-      "block_order": ["announcement-0", "announcement-1", "announcement-2", "announcement-3", "announcement-4", "announcement-5", "announcement-6", "announcement-7"],
-      "settings": {
-        "show_announcement": true
-      }
-    },
     "hero": {
       "type": "hero",
       "blocks": {
@@ -194,6 +137,5 @@
       }
     }
   },
-  "order": ["announcement-bar", "hero", "featured-products", "stories", "testimonials"]
+  "order": ["hero", "featured-products", "stories", "testimonials"]
 }
-
