@@ -1,6 +1,939 @@
+{% doc %}
+  @prompt
+    Create a beautiful About page section in English with professional design. The section should include: a hero area with customizable heading and description, an attractive layout for company story, mission and values sections, team member cards with images and descriptions, and the ability to hide the default page title. Include options to customize colors, spacing, and text alignment. Make it modern and visually appealing.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-about-section-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+  }
+
+  .ai-about-container-{{ ai_gen_id }} {
+    max-width: {{ block.settings.container_width }}px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .ai-about-hero-{{ ai_gen_id }} {
+    text-align: {{ block.settings.hero_text_align }};
+    padding: {{ block.settings.hero_padding_top }}px 0 {{ block.settings.hero_padding_bottom }}px;
+    background-color: {{ block.settings.hero_bg_color }};
+  }
+
+  .ai-about-hero-heading-{{ ai_gen_id }} {
+    font-size: {{ block.settings.hero_heading_size }}px;
+    color: {{ block.settings.hero_heading_color }};
+    margin: 0 0 20px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .ai-about-hero-description-{{ ai_gen_id }} {
+    font-size: {{ block.settings.hero_description_size }}px;
+    color: {{ block.settings.hero_description_color }};
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  .ai-about-content-{{ ai_gen_id }} {
+    padding: {{ block.settings.content_padding_top }}px 0 {{ block.settings.content_padding_bottom }}px;
+    background-color: {{ block.settings.content_bg_color }};
+  }
+
+  .ai-about-story-{{ ai_gen_id }} {
+    margin-bottom: {{ block.settings.section_spacing }}px;
+  }
+
+  .ai-about-story-heading-{{ ai_gen_id }} {
+    font-size: {{ block.settings.section_heading_size }}px;
+    color: {{ block.settings.section_heading_color }};
+    margin: 0 0 24px;
+    font-weight: 700;
+    text-align: {{ block.settings.story_text_align }};
+  }
+
+  .ai-about-story-text-{{ ai_gen_id }} {
+    font-size: {{ block.settings.body_text_size }}px;
+    color: {{ block.settings.body_text_color }};
+    line-height: 1.7;
+    text-align: {{ block.settings.story_text_align }};
+  }
+
+  .ai-about-values-{{ ai_gen_id }} {
+    margin-bottom: {{ block.settings.section_spacing }}px;
+  }
+
+  .ai-about-values-heading-{{ ai_gen_id }} {
+    font-size: {{ block.settings.section_heading_size }}px;
+    color: {{ block.settings.section_heading_color }};
+    margin: 0 0 40px;
+    font-weight: 700;
+    text-align: {{ block.settings.values_text_align }};
+  }
+
+  .ai-about-values-grid-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 32px;
+  }
+
+  .ai-about-value-card-{{ ai_gen_id }} {
+    padding: 32px;
+    background-color: {{ block.settings.card_bg_color }};
+    border-radius: {{ block.settings.card_border_radius }}px;
+    box-shadow: {{ block.settings.card_shadow_enabled | default: true }};
+    transition: transform 0.3s ease;
+  }
+
+  {% if block.settings.card_shadow_enabled %}
+    .ai-about-value-card-{{ ai_gen_id }} {
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .ai-about-value-card-{{ ai_gen_id }}:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    }
+  {% endif %}
+
+  .ai-about-value-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.card_title_size }}px;
+    color: {{ block.settings.card_title_color }};
+    margin: 0 0 12px;
+    font-weight: 600;
+  }
+
+  .ai-about-value-description-{{ ai_gen_id }} {
+    font-size: {{ block.settings.body_text_size }}px;
+    color: {{ block.settings.body_text_color }};
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .ai-about-team-{{ ai_gen_id }} {
+    margin-bottom: {{ block.settings.section_spacing }}px;
+  }
+
+  .ai-about-team-heading-{{ ai_gen_id }} {
+    font-size: {{ block.settings.section_heading_size }}px;
+    color: {{ block.settings.section_heading_color }};
+    margin: 0 0 40px;
+    font-weight: 700;
+    text-align: {{ block.settings.team_text_align }};
+  }
+
+  .ai-about-team-grid-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 32px;
+  }
+
+  .ai-about-team-member-{{ ai_gen_id }} {
+    text-align: center;
+  }
+
+  .ai-about-team-image-wrapper-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    padding-bottom: 100%;
+    margin-bottom: 20px;
+    overflow: hidden;
+    border-radius: {{ block.settings.team_image_border_radius }}px;
+    background-color: #f4f4f4;
+  }
+
+  .ai-about-team-image-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .ai-about-team-image-wrapper-{{ ai_gen_id }} svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .ai-about-team-name-{{ ai_gen_id }} {
+    font-size: {{ block.settings.team_name_size }}px;
+    color: {{ block.settings.section_heading_color }};
+    margin: 0 0 8px;
+    font-weight: 600;
+  }
+
+  .ai-about-team-role-{{ ai_gen_id }} {
+    font-size: {{ block.settings.team_role_size }}px;
+    color: {{ block.settings.team_role_color }};
+    margin: 0 0 12px;
+    font-weight: 500;
+  }
+
+  .ai-about-team-bio-{{ ai_gen_id }} {
+    font-size: {{ block.settings.body_text_size }}px;
+    color: {{ block.settings.body_text_color }};
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-about-hero-heading-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.hero_heading_size }}px * 0.7);
+    }
+
+    .ai-about-hero-description-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.hero_description_size }}px * 0.9);
+    }
+
+    .ai-about-story-heading-{{ ai_gen_id }},
+    .ai-about-values-heading-{{ ai_gen_id }},
+    .ai-about-team-heading-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.section_heading_size }}px * 0.8);
+    }
+
+    .ai-about-values-grid-{{ ai_gen_id }},
+    .ai-about-team-grid-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+    }
+
+    .ai-about-hero-{{ ai_gen_id }} {
+      padding: {{ block.settings.hero_padding_top | times: 0.6 }}px 0 {{ block.settings.hero_padding_bottom | times: 0.6 }}px;
+    }
+
+    .ai-about-content-{{ ai_gen_id }} {
+      padding: {{ block.settings.content_padding_top | times: 0.6 }}px 0 {{ block.settings.content_padding_bottom | times: 0.6 }}px;
+    }
+  }
+{% endstyle %}
+
+<about-section-{{ ai_gen_id }} class="ai-about-section-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  {% if block.settings.hide_page_title %}
+    <style>
+      .page-title {
+        display: none !important;
+      }
+    </style>
+  {% endif %}
+
+  <div class="ai-about-hero-{{ ai_gen_id }}">
+    <div class="ai-about-container-{{ ai_gen_id }}">
+      {% if block.settings.hero_heading != blank %}
+        <h1 class="ai-about-hero-heading-{{ ai_gen_id }}">{{ block.settings.hero_heading }}</h1>
+      {% endif %}
+      {% if block.settings.hero_description != blank %}
+        <div class="ai-about-hero-description-{{ ai_gen_id }}">{{ block.settings.hero_description }}</div>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="ai-about-content-{{ ai_gen_id }}">
+    <div class="ai-about-container-{{ ai_gen_id }}">
+      {% if block.settings.show_story_section %}
+        <div class="ai-about-story-{{ ai_gen_id }}">
+          {% if block.settings.story_heading != blank %}
+            <h2 class="ai-about-story-heading-{{ ai_gen_id }}">{{ block.settings.story_heading }}</h2>
+          {% endif %}
+          {% if block.settings.story_text != blank %}
+            <div class="ai-about-story-text-{{ ai_gen_id }}">{{ block.settings.story_text }}</div>
+          {% endif %}
+        </div>
+      {% endif %}
+
+      {% if block.settings.show_mission_section %}
+        <div class="ai-about-story-{{ ai_gen_id }}">
+          {% if block.settings.mission_heading != blank %}
+            <h2 class="ai-about-story-heading-{{ ai_gen_id }}">{{ block.settings.mission_heading }}</h2>
+          {% endif %}
+          {% if block.settings.mission_text != blank %}
+            <div class="ai-about-story-text-{{ ai_gen_id }}">{{ block.settings.mission_text }}</div>
+          {% endif %}
+        </div>
+      {% endif %}
+
+      {% if block.settings.show_values_section %}
+        <div class="ai-about-values-{{ ai_gen_id }}">
+          {% if block.settings.values_heading != blank %}
+            <h2 class="ai-about-values-heading-{{ ai_gen_id }}">{{ block.settings.values_heading }}</h2>
+          {% endif %}
+          <div class="ai-about-values-grid-{{ ai_gen_id }}">
+            {% for i in (1..4) %}
+              {% assign value_title_key = 'value_' | append: i | append: '_title' %}
+              {% assign value_description_key = 'value_' | append: i | append: '_description' %}
+              {% assign value_title = block.settings[value_title_key] %}
+              {% assign value_description = block.settings[value_description_key] %}
+
+              {% if value_title != blank or value_description != blank %}
+                <div class="ai-about-value-card-{{ ai_gen_id }}">
+                  {% if value_title != blank %}
+                    <h3 class="ai-about-value-title-{{ ai_gen_id }}">{{ value_title }}</h3>
+                  {% endif %}
+                  {% if value_description != blank %}
+                    <div class="ai-about-value-description-{{ ai_gen_id }}">{{ value_description }}</div>
+                  {% endif %}
+                </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+      {% endif %}
+
+      {% if block.settings.show_team_section %}
+        <div class="ai-about-team-{{ ai_gen_id }}">
+          {% if block.settings.team_heading != blank %}
+            <h2 class="ai-about-team-heading-{{ ai_gen_id }}">{{ block.settings.team_heading }}</h2>
+          {% endif %}
+          <div class="ai-about-team-grid-{{ ai_gen_id }}">
+            {% for i in (1..6) %}
+              {% assign team_image_key = 'team_' | append: i | append: '_image' %}
+              {% assign team_name_key = 'team_' | append: i | append: '_name' %}
+              {% assign team_role_key = 'team_' | append: i | append: '_role' %}
+              {% assign team_bio_key = 'team_' | append: i | append: '_bio' %}
+              {% assign team_image = block.settings[team_image_key] %}
+              {% assign team_name = block.settings[team_name_key] %}
+              {% assign team_role = block.settings[team_role_key] %}
+              {% assign team_bio = block.settings[team_bio_key] %}
+
+              {% if team_name != blank or team_image != blank %}
+                <div class="ai-about-team-member-{{ ai_gen_id }}">
+                  <div class="ai-about-team-image-wrapper-{{ ai_gen_id }}">
+                    {% if team_image %}
+                      <img
+                        src="{{ team_image | image_url: width: 500 }}"
+                        alt="{{ team_name | escape }}"
+                        class="ai-about-team-image-{{ ai_gen_id }}"
+                        loading="lazy"
+                        width="500"
+                        height="500"
+                      >
+                    {% else %}
+                      {{ 'image' | placeholder_svg_tag }}
+                    {% endif %}
+                  </div>
+                  {% if team_name != blank %}
+                    <h3 class="ai-about-team-name-{{ ai_gen_id }}">{{ team_name }}</h3>
+                  {% endif %}
+                  {% if team_role != blank %}
+                    <div class="ai-about-team-role-{{ ai_gen_id }}">{{ team_role }}</div>
+                  {% endif %}
+                  {% if team_bio != blank %}
+                    <div class="ai-about-team-bio-{{ ai_gen_id }}">{{ team_bio }}</div>
+                  {% endif %}
+                </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</about-section-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class AboutSection{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+        this.style.display = 'block';
+      }
+    }
+
+    customElements.define('about-section-{{ ai_gen_id }}', AboutSection{{ ai_gen_id }});
+  })();
+</script>
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "About page",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Page settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_page_title",
+      "label": "Hide default page title",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "container_width",
+      "min": 1000,
+      "max": 1600,
+      "step": 100,
+      "unit": "px",
+      "label": "Container width",
+      "default": 1200
+    },
+    {
+      "type": "range",
+      "id": "section_spacing",
+      "min": 40,
+      "max": 120,
+      "step": 10,
+      "unit": "px",
+      "label": "Section spacing",
+      "default": 80
+    },
+    {
+      "type": "header",
+      "content": "Hero section"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "hero_heading",
+      "label": "Heading",
+      "default": "About Us"
+    },
+    {
+      "type": "richtext",
+      "id": "hero_description",
+      "label": "Description",
+      "default": "<p>We're passionate about creating exceptional products and experiences that make a difference in people's lives.</p>"
+    },
+    {
+      "type": "select",
+      "id": "hero_text_align",
+      "label": "Text alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "color",
+      "id": "hero_bg_color",
+      "label": "Background color",
+      "default": "#F5F5F5"
+    },
+    {
+      "type": "color",
+      "id": "hero_heading_color",
+      "label": "Heading color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "hero_description_color",
+      "label": "Description color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "hero_heading_size",
+      "min": 24,
+      "max": 72,
+      "step": 2,
+      "unit": "px",
+      "label": "Heading size",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "hero_description_size",
+      "min": 14,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Description size",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "hero_padding_top",
+      "min": 40,
+      "max": 160,
+      "step": 10,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "hero_padding_bottom",
+      "min": 40,
+      "max": 160,
+      "step": 10,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 80
+    },
+    {
+      "type": "header",
+      "content": "Story section"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_story_section",
+      "label": "Show story section",
+      "default": true
+    },
+    {
+      "type": "inline_richtext",
+      "id": "story_heading",
+      "label": "Heading",
+      "default": "Our Story"
+    },
+    {
+      "type": "richtext",
+      "id": "story_text",
+      "label": "Text",
+      "default": "<p>Founded with a vision to revolutionize the industry, our journey began with a simple idea and a commitment to excellence. Over the years, we've grown into a trusted brand, serving thousands of satisfied customers worldwide.</p>"
+    },
+    {
+      "type": "select",
+      "id": "story_text_align",
+      "label": "Text alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "header",
+      "content": "Mission section"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_mission_section",
+      "label": "Show mission section",
+      "default": true
+    },
+    {
+      "type": "inline_richtext",
+      "id": "mission_heading",
+      "label": "Heading",
+      "default": "Our Mission"
+    },
+    {
+      "type": "richtext",
+      "id": "mission_text",
+      "label": "Text",
+      "default": "<p>Our mission is to deliver innovative solutions that empower our customers to achieve their goals. We believe in quality, sustainability, and creating lasting value for everyone we serve.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Values section"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_values_section",
+      "label": "Show values section",
+      "default": true
+    },
+    {
+      "type": "inline_richtext",
+      "id": "values_heading",
+      "label": "Heading",
+      "default": "Our Values"
+    },
+    {
+      "type": "select",
+      "id": "values_text_align",
+      "label": "Text alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "value_1_title",
+      "label": "Value 1 title",
+      "default": "Innovation"
+    },
+    {
+      "type": "richtext",
+      "id": "value_1_description",
+      "label": "Value 1 description",
+      "default": "<p>We constantly push boundaries and embrace new ideas to stay ahead of the curve.</p>"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "value_2_title",
+      "label": "Value 2 title",
+      "default": "Quality"
+    },
+    {
+      "type": "richtext",
+      "id": "value_2_description",
+      "label": "Value 2 description",
+      "default": "<p>Excellence is at the heart of everything we do, from product design to customer service.</p>"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "value_3_title",
+      "label": "Value 3 title",
+      "default": "Integrity"
+    },
+    {
+      "type": "richtext",
+      "id": "value_3_description",
+      "label": "Value 3 description",
+      "default": "<p>We build trust through transparency, honesty, and ethical business practices.</p>"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "value_4_title",
+      "label": "Value 4 title",
+      "default": "Sustainability"
+    },
+    {
+      "type": "richtext",
+      "id": "value_4_description",
+      "label": "Value 4 description",
+      "default": "<p>We're committed to protecting our planet for future generations.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Team section"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_team_section",
+      "label": "Show team section",
+      "default": true
+    },
+    {
+      "type": "inline_richtext",
+      "id": "team_heading",
+      "label": "Heading",
+      "default": "Meet Our Team"
+    },
+    {
+      "type": "select",
+      "id": "team_text_align",
+      "label": "Text alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "team_image_border_radius",
+      "min": 0,
+      "max": 50,
+      "step": 5,
+      "unit": "%",
+      "label": "Image border radius",
+      "default": 10
+    },
+    {
+      "type": "header",
+      "content": "Team member 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "team_1_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "team_1_name",
+      "label": "Name",
+      "default": "Sarah Johnson"
+    },
+    {
+      "type": "text",
+      "id": "team_1_role",
+      "label": "Role",
+      "default": "Founder & CEO"
+    },
+    {
+      "type": "textarea",
+      "id": "team_1_bio",
+      "label": "Bio",
+      "default": "Visionary leader with 15+ years of industry experience."
+    },
+    {
+      "type": "header",
+      "content": "Team member 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "team_2_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "team_2_name",
+      "label": "Name",
+      "default": "Michael Chen"
+    },
+    {
+      "type": "text",
+      "id": "team_2_role",
+      "label": "Role",
+      "default": "Chief Technology Officer"
+    },
+    {
+      "type": "textarea",
+      "id": "team_2_bio",
+      "label": "Bio",
+      "default": "Tech innovator passionate about building scalable solutions."
+    },
+    {
+      "type": "header",
+      "content": "Team member 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "team_3_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "team_3_name",
+      "label": "Name",
+      "default": "Emily Rodriguez"
+    },
+    {
+      "type": "text",
+      "id": "team_3_role",
+      "label": "Role",
+      "default": "Head of Design"
+    },
+    {
+      "type": "textarea",
+      "id": "team_3_bio",
+      "label": "Bio",
+      "default": "Creative director with an eye for beautiful, functional design."
+    },
+    {
+      "type": "header",
+      "content": "Team member 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "team_4_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "team_4_name",
+      "label": "Name"
+    },
+    {
+      "type": "text",
+      "id": "team_4_role",
+      "label": "Role"
+    },
+    {
+      "type": "textarea",
+      "id": "team_4_bio",
+      "label": "Bio"
+    },
+    {
+      "type": "header",
+      "content": "Team member 5"
+    },
+    {
+      "type": "image_picker",
+      "id": "team_5_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "team_5_name",
+      "label": "Name"
+    },
+    {
+      "type": "text",
+      "id": "team_5_role",
+      "label": "Role"
+    },
+    {
+      "type": "textarea",
+      "id": "team_5_bio",
+      "label": "Bio"
+    },
+    {
+      "type": "header",
+      "content": "Team member 6"
+    },
+    {
+      "type": "image_picker",
+      "id": "team_6_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "team_6_name",
+      "label": "Name"
+    },
+    {
+      "type": "text",
+      "id": "team_6_role",
+      "label": "Role"
+    },
+    {
+      "type": "textarea",
+      "id": "team_6_bio",
+      "label": "Bio"
+    },
+    {
+      "type": "header",
+      "content": "Content colors"
+    },
+    {
+      "type": "color",
+      "id": "content_bg_color",
+      "label": "Background color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "section_heading_color",
+      "label": "Section heading color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "body_text_color",
+      "label": "Body text color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "team_role_color",
+      "label": "Team role color",
+      "default": "#F97316"
+    },
+    {
+      "type": "header",
+      "content": "Card style"
+    },
+    {
+      "type": "color",
+      "id": "card_bg_color",
+      "label": "Card background color",
+      "default": "#F5F5F5"
+    },
+    {
+      "type": "color",
+      "id": "card_title_color",
+      "label": "Card title color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "label": "Card border radius",
+      "default": 12
+    },
+    {
+      "type": "checkbox",
+      "id": "card_shadow_enabled",
+      "label": "Enable card shadow",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "section_heading_size",
+      "min": 24,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "label": "Section heading size",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "card_title_size",
+      "min": 16,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Card title size",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "body_text_size",
+      "min": 14,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Body text size",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "team_name_size",
+      "min": 16,
+      "max": 28,
+      "step": 2,
+      "unit": "px",
+      "label": "Team name size",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "team_role_size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Team role size",
+      "default": 14
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "content_padding_top",
+      "min": 40,
+      "max": 160,
+      "step": 10,
+      "unit": "px",
+      "label": "Content top padding",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "content_padding_bottom",
+      "min": 40,
+      "max": 160,
+      "step": 10,
+      "unit": "px",
+      "label": "Content bottom padding",
+      "default": 80
+    }
+  ],
+  "presets": [
+    {
+      "name": "About page"
+    }
+  ]
+}
 {% endschema %}
