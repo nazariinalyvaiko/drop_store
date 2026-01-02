@@ -1,9 +1,5 @@
 {
-  "sections": {
-    "not-found": {
-      "type": "section-404",
-      "settings": {}
-    }
-  },
-  "order": ["not-found"]
+  "layout": "theme",
+  "sections": {},
+  "order": []
 }

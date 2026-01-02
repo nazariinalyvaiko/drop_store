@@ -1,30 +1,57 @@
-<section class="hero" data-section-id="{{ section.id }}">
+<section class="hero" data-section-id="{{ section.id }}" style="
+  --hero-bg: {{ section.settings.bg_color }};
+  --hero-text: {{ section.settings.text_color }};
+  --hero-accent: {{ section.settings.accent_color }};
+  --hero-muted: {{ section.settings.muted_color }};
+  --hero-btn-bg: {{ section.settings.button_bg }};
+  --hero-btn-text: {{ section.settings.button_text }};
+">
+  {%- if section.settings.bg_image != blank -%}
+    <div class="hero__bg-image">
+      <img 
+        src="{{ section.settings.bg_image | image_url: width: 1920 }}"
+        alt=""
+        loading="eager"
+        class="hero__bg-img"
+        width="1920"
+        height="800"
+      >
+      <div class="hero__bg-overlay" style="opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};"></div>
+    </div>
+  {%- endif -%}
+
   <div class="hero__container">
     <div class="hero__content">
-      <div class="hero__content-inner">
+      <div class="hero__content-inner" style="text-align: {{ section.settings.text_align }};">
         <!-- Top label -->
-        <div class="hero__label">
-          <span>{{ section.settings.label | default: 'Est. 2026' }}</span>
-        </div>
+        {%- if section.settings.label != blank -%}
+          <div class="hero__label">
+            <span>{{ section.settings.label }}</span>
+          </div>
+        {%- endif -%}
         
         <!-- Main heading -->
-        <h1 class="hero__heading">
+        <h1 class="hero__heading" style="font-size: clamp({{ section.settings.heading_size_mobile }}rem, 5vw, {{ section.settings.heading_size }}rem);">
           {{ section.settings.heading | default: 'Best for You' }}
         </h1>
         
         <!-- Subtitle -->
-        <p class="hero__subtitle">
-          {{ section.settings.subtitle | default: 'Smart devices for modern life. Quality, status, exclusivity.' }}
-        </p>
+        {%- if section.settings.subtitle != blank -%}
+          <p class="hero__subtitle">
+            {{ section.settings.subtitle }}
+          </p>
+        {%- endif -%}
         
         <!-- CTA Buttons -->
-        <div class="hero__actions">
+        <div class="hero__actions" style="justify-content: {{ section.settings.text_align }};">
           {%- if section.settings.button_label != blank -%}
-            <a href="{{ section.settings.button_link }}" class="hero__btn hero__btn--primary">
+            <a href="{{ section.settings.button_link }}" class="hero__btn hero__btn--primary {% if section.settings.button_style == 'outline' %}hero__btn--outline{% endif %}">
               <span>{{ section.settings.button_label }}</span>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M5 12h14m-7-7 7 7-7 7"/>
-              </svg>
+              {%- if section.settings.button_icon -%}
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M5 12h14m-7-7 7 7-7 7"/>
+                </svg>
+              {%- endif -%}
             </a>
           {%- endif -%}
           
@@ -35,113 +62,187 @@
           {%- endif -%}
         </div>
         
-        <!-- Bottom tags -->
-        <div class="hero__tags">
-          {%- for block in section.blocks -%}
-            {%- if block.type == 'tag' -%}
-              {%- unless forloop.first -%}
-                <span class="hero__tag-dot"></span>
-              {%- endunless -%}
-              <span class="hero__tag" {{ block.shopify_attributes }}>{{ block.settings.text }}</span>
-            {%- endif -%}
-          {%- endfor -%}
-        </div>
+        <!-- Tags -->
+        {%- if section.blocks.size > 0 -%}
+          <div class="hero__tags" style="justify-content: {{ section.settings.text_align }};">
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'tag' -%}
+                {%- unless forloop.first -%}
+                  <span class="hero__tag-dot"></span>
+                {%- endunless -%}
+                <span class="hero__tag" {{ block.shopify_attributes }}>{{ block.settings.text }}</span>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
       </div>
     </div>
   </div>
   
   <!-- Bottom bar with search -->
-  <div class="hero__bottom">
-    <div class="hero__bottom-container container">
-      <div class="hero__search">
-        <form action="{{ routes.search_url }}" method="get" class="hero__search-form">
-          <div class="hero__search-icon">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="11" cy="11" r="8"/>
-              <path d="m21 21-4.35-4.35"/>
-            </svg>
+  {%- if section.settings.show_search_bar -%}
+    <div class="hero__bottom">
+      <div class="hero__bottom-container container">
+        <div class="hero__search">
+          <form action="{{ routes.search_url }}" method="get" class="hero__search-form">
+            <div class="hero__search-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"/>
+                <path d="m21 21-4.35-4.35"/>
+              </svg>
+            </div>
+            <input 
+              type="search" 
+              name="q" 
+              placeholder="{{ section.settings.search_placeholder | default: 'Search products...' }}"
+              class="hero__search-input"
+            >
+            <button type="submit" class="hero__search-btn">{{ section.settings.search_button | default: 'Search' }}</button>
+          </form>
+        </div>
+        
+        {%- if section.settings.show_info_blocks -%}
+          <div class="hero__info">
+            {%- if section.settings.info_label_1 != blank -%}
+              <div class="hero__info-item">
+                <div class="hero__info-label">{{ section.settings.info_label_1 }}</div>
+                <div class="hero__info-value">{{ section.settings.info_value_1 }}</div>
+              </div>
+            {%- endif -%}
+            {%- if section.settings.info_label_2 != blank -%}
+              <div class="hero__info-item">
+                <div class="hero__info-label">{{ section.settings.info_label_2 }}</div>
+                <div class="hero__info-value">{{ section.settings.info_value_2 }}</div>
+              </div>
+            {%- endif -%}
+            {%- if section.settings.info_label_3 != blank -%}
+              <div class="hero__info-item">
+                <div class="hero__info-label">{{ section.settings.info_label_3 }}</div>
+                <div class="hero__info-value">{{ section.settings.info_value_3 }}</div>
+              </div>
+            {%- endif -%}
           </div>
-          <input 
-            type="search" 
-            name="q" 
-            placeholder="Search products..."
-            class="hero__search-input"
-          >
-          <button type="submit" class="hero__search-btn">Search</button>
-        </form>
-      </div>
-      
-      <div class="hero__info">
-        <div class="hero__info-item">
-          <div class="hero__info-label">{{ section.settings.info_label_1 | default: 'Shipping' }}</div>
-          <div class="hero__info-value">{{ section.settings.info_value_1 | default: 'Worldwide' }}</div>
-        </div>
-        <div class="hero__info-item">
-          <div class="hero__info-label">{{ section.settings.info_label_2 | default: 'Support' }}</div>
-          <div class="hero__info-value">{{ section.settings.info_value_2 | default: '24/7' }}</div>
-        </div>
+        {%- endif -%}
       </div>
     </div>
-  </div>
+  {%- endif -%}
 </section>
 
 {% style %}
   .hero {
     position: relative;
-    background: #fff;
+    background: var(--hero-bg);
+    color: var(--hero-text);
     overflow: hidden;
   }
 
+  .hero__bg-image {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .hero__bg-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .hero__bg-overlay {
+    position: absolute;
+    inset: 0;
+    background: #000;
+  }
+
   .hero__container {
+    position: relative;
+    z-index: 1;
     display: flex;
     flex-direction: column;
-    padding: 2.5rem 1.5rem 2rem;
+    padding: {{ section.settings.padding_top }}px 1.5rem {{ section.settings.padding_bottom }}px;
+    min-height: {{ section.settings.min_height }}vh;
+    {%- if section.settings.vertical_align == 'center' -%}
+    justify-content: center;
+    {%- elsif section.settings.vertical_align == 'bottom' -%}
+    justify-content: flex-end;
+    {%- endif -%}
   }
 
   @media (min-width: 768px) {
     .hero__container {
-      padding: 3rem 3rem 2.5rem;
+      padding: {{ section.settings.padding_top }}px 3rem {{ section.settings.padding_bottom }}px;
     }
   }
 
   .hero__content-inner {
-    max-width: 32rem;
+    max-width: {{ section.settings.content_width }}rem;
+    {%- if section.settings.text_align == 'center' -%}
+    margin: 0 auto;
+    {%- endif -%}
   }
 
   .hero__label {
     margin-bottom: 1rem;
+    {%- if section.settings.animate -%}
+    animation: fadeInUp 0.6s ease forwards;
+    animation-delay: 0.1s;
+    opacity: 0;
+    {%- endif -%}
   }
 
   .hero__label span {
-    font-size: 0.625rem;
+    font-size: {{ section.settings.label_size }}rem;
     font-family: 'Space Grotesk', monospace;
     letter-spacing: 0.3em;
     text-transform: uppercase;
-    color: rgba(0, 0, 0, 0.4);
+    color: var(--hero-muted);
+    {%- if section.settings.label_border -%}
+    padding: 0.25rem 0.75rem;
+    border: 1px solid var(--hero-muted);
+    {%- endif -%}
   }
 
   .hero__heading {
-    font-size: clamp(2rem, 5vw, 3.5rem);
-    font-weight: 300;
-    line-height: 1.1;
-    letter-spacing: -0.02em;
+    font-weight: {{ section.settings.heading_weight }};
+    line-height: {{ section.settings.heading_line_height }};
+    letter-spacing: {{ section.settings.heading_spacing }}em;
     margin-bottom: 1rem;
-    color: #000;
+    color: var(--hero-text);
+    {%- if section.settings.animate -%}
+    animation: fadeInUp 0.6s ease forwards;
+    animation-delay: 0.2s;
+    opacity: 0;
+    {%- endif -%}
   }
 
   .hero__subtitle {
-    font-size: 0.875rem;
+    font-size: {{ section.settings.subtitle_size }}rem;
     line-height: 1.6;
-    max-width: 24rem;
-    color: rgba(0, 0, 0, 0.5);
+    max-width: 28rem;
+    color: var(--hero-muted);
     margin-bottom: 1.5rem;
+    {%- if section.settings.text_align == 'center' -%}
+    margin-left: auto;
+    margin-right: auto;
+    {%- endif -%}
+    {%- if section.settings.animate -%}
+    animation: fadeInUp 0.6s ease forwards;
+    animation-delay: 0.3s;
+    opacity: 0;
+    {%- endif -%}
   }
 
   .hero__actions {
     display: flex;
     align-items: center;
     gap: 1.5rem;
+    flex-wrap: wrap;
     margin-bottom: 1.5rem;
+    {%- if section.settings.animate -%}
+    animation: fadeInUp 0.6s ease forwards;
+    animation-delay: 0.4s;
+    opacity: 0;
+    {%- endif -%}
   }
 
   .hero__btn {
@@ -150,30 +251,46 @@
     gap: 0.5rem;
     text-decoration: none;
     transition: all 0.3s ease;
+    font-family: 'Space Grotesk', monospace;
   }
 
   .hero__btn--primary {
-    padding: 0.75rem 1.5rem;
-    background: #000;
-    color: #fff;
-    font-size: 0.75rem;
+    padding: {{ section.settings.button_padding_y }}rem {{ section.settings.button_padding_x }}rem;
+    background: var(--hero-btn-bg);
+    color: var(--hero-btn-text);
+    font-size: {{ section.settings.button_size }}rem;
     letter-spacing: 0.15em;
     text-transform: uppercase;
+    border: 2px solid var(--hero-btn-bg);
   }
 
   .hero__btn--primary:hover {
-    background: rgba(0, 0, 0, 0.8);
+    background: transparent;
+    color: var(--hero-btn-bg);
+  }
+
+  .hero__btn--outline {
+    background: transparent;
+    color: var(--hero-btn-bg);
+  }
+
+  .hero__btn--outline:hover {
+    background: var(--hero-btn-bg);
+    color: var(--hero-btn-text);
   }
 
   .hero__btn--secondary {
-    font-size: 0.75rem;
+    font-size: {{ section.settings.button_size }}rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: rgba(0, 0, 0, 0.6);
+    color: var(--hero-muted);
+    padding-bottom: 0.25rem;
+    border-bottom: 1px solid transparent;
   }
 
   .hero__btn--secondary:hover {
-    color: #000;
+    color: var(--hero-text);
+    border-bottom-color: var(--hero-text);
   }
 
   .hero__tags {
@@ -181,6 +298,11 @@
     align-items: center;
     gap: 1.5rem;
     flex-wrap: wrap;
+    {%- if section.settings.animate -%}
+    animation: fadeInUp 0.6s ease forwards;
+    animation-delay: 0.5s;
+    opacity: 0;
+    {%- endif -%}
   }
 
   .hero__tag {
@@ -188,19 +310,21 @@
     font-family: 'Space Grotesk', monospace;
     letter-spacing: 0.15em;
     text-transform: uppercase;
-    color: rgba(0, 0, 0, 0.3);
+    color: var(--hero-muted);
   }
 
   .hero__tag-dot {
     width: 0.25rem;
     height: 0.25rem;
     border-radius: 9999px;
-    background: rgba(0, 0, 0, 0.2);
+    background: var(--hero-muted);
   }
 
   .hero__bottom {
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
-    background: #fff;
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid rgba({{ section.settings.text_color | remove: '#' | slice: 0, 2 | prepend: '0x' | hex_to_decimal }}, {{ section.settings.text_color | remove: '#' | slice: 2, 2 | prepend: '0x' | hex_to_decimal }}, {{ section.settings.text_color | remove: '#' | slice: 4, 2 | prepend: '0x' | hex_to_decimal }}, 0.1);
+    background: var(--hero-bg);
   }
 
   .hero__bottom-container {
@@ -233,7 +357,7 @@
   .hero__search-icon {
     position: absolute;
     left: 1rem;
-    color: rgba(0, 0, 0, 0.3);
+    color: var(--hero-muted);
     pointer-events: none;
     z-index: 10;
   }
@@ -245,14 +369,15 @@
     font-weight: 300;
     letter-spacing: 0.05em;
     border: 1px solid rgba(0, 0, 0, 0.08);
-    border-radius: 4px;
+    border-radius: {{ section.settings.border_radius }}px;
     background: rgba(255, 255, 255, 0.9);
+    color: #000;
     transition: all 0.3s ease;
   }
 
   .hero__search-input:focus {
     outline: none;
-    border-color: rgba(0, 0, 0, 0.2);
+    border-color: var(--hero-accent);
     background: #fff;
   }
 
@@ -264,20 +389,20 @@
     position: absolute;
     right: 0.25rem;
     padding: 0.5rem 1rem;
-    background: #000;
-    color: #fff;
+    background: var(--hero-btn-bg);
+    color: var(--hero-btn-text);
     font-size: 0.625rem;
     font-weight: 300;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     border: none;
-    border-radius: 3px;
+    border-radius: {{ section.settings.border_radius | minus: 2 }}px;
     cursor: pointer;
-    transition: background 0.3s ease;
+    transition: all 0.3s ease;
   }
 
   .hero__search-btn:hover {
-    background: rgba(0, 0, 0, 0.85);
+    opacity: 0.85;
   }
 
   .hero__info {
@@ -308,13 +433,24 @@
     font-family: 'Space Grotesk', monospace;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: rgba(0, 0, 0, 0.3);
+    color: var(--hero-muted);
     margin-bottom: 0.125rem;
   }
 
   .hero__info-value {
     font-size: 0.75rem;
-    color: rgba(0, 0, 0, 0.6);
+    color: var(--hero-text);
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 {% endstyle %}
 
@@ -325,10 +461,20 @@
   "class": "section-hero",
   "settings": [
     {
+      "type": "header",
+      "content": "Content"
+    },
+    {
       "type": "text",
       "id": "label",
       "label": "Top Label",
       "default": "Est. 2026"
+    },
+    {
+      "type": "checkbox",
+      "id": "label_border",
+      "label": "Label Border",
+      "default": false
     },
     {
       "type": "text",
@@ -343,32 +489,84 @@
       "default": "Smart devices for modern life. Quality, status, exclusivity."
     },
     {
+      "type": "header",
+      "content": "Primary Button"
+    },
+    {
       "type": "text",
       "id": "button_label",
-      "label": "Primary Button Label",
+      "label": "Button Label",
       "default": "Explore"
     },
     {
       "type": "url",
       "id": "button_link",
-      "label": "Primary Button Link",
+      "label": "Button Link",
       "default": "/collections/all"
+    },
+    {
+      "type": "select",
+      "id": "button_style",
+      "label": "Button Style",
+      "options": [
+        { "value": "solid", "label": "Solid" },
+        { "value": "outline", "label": "Outline" }
+      ],
+      "default": "solid"
+    },
+    {
+      "type": "checkbox",
+      "id": "button_icon",
+      "label": "Show Arrow Icon",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Secondary Button"
     },
     {
       "type": "text",
       "id": "secondary_button_label",
-      "label": "Secondary Button Label",
+      "label": "Button Label",
       "default": "Learn More"
     },
     {
       "type": "url",
       "id": "secondary_button_link",
-      "label": "Secondary Button Link",
+      "label": "Button Link",
       "default": "/pages/about"
     },
     {
       "type": "header",
-      "content": "Bottom Info"
+      "content": "Search Bar"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_search_bar",
+      "label": "Show Search Bar",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "search_placeholder",
+      "label": "Placeholder Text",
+      "default": "Search products..."
+    },
+    {
+      "type": "text",
+      "id": "search_button",
+      "label": "Button Text",
+      "default": "Search"
+    },
+    {
+      "type": "header",
+      "content": "Info Blocks"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_info_blocks",
+      "label": "Show Info Blocks",
+      "default": true
     },
     {
       "type": "text",
@@ -393,6 +591,212 @@
       "id": "info_value_2",
       "label": "Info Value 2",
       "default": "24/7"
+    },
+    {
+      "type": "text",
+      "id": "info_label_3",
+      "label": "Info Label 3"
+    },
+    {
+      "type": "text",
+      "id": "info_value_3",
+      "label": "Info Value 3"
+    },
+    {
+      "type": "header",
+      "content": "Background"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Background Image"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Overlay Opacity",
+      "min": 0, "max": 100, "step": 5, "default": 0, "unit": "%"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "muted_color",
+      "label": "Muted Text Color",
+      "default": "#666666"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "button_bg",
+      "label": "Button Background",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Heading Size (Desktop)",
+      "min": 2, "max": 6, "step": 0.5, "default": 3.5, "unit": "rem"
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mobile",
+      "label": "Heading Size (Mobile)",
+      "min": 1.5, "max": 4, "step": 0.25, "default": 2, "unit": "rem"
+    },
+    {
+      "type": "select",
+      "id": "heading_weight",
+      "label": "Heading Weight",
+      "options": [
+        { "value": "200", "label": "Extra Light" },
+        { "value": "300", "label": "Light" },
+        { "value": "400", "label": "Regular" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi Bold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "300"
+    },
+    {
+      "type": "range",
+      "id": "heading_line_height",
+      "label": "Heading Line Height",
+      "min": 0.9, "max": 1.5, "step": 0.05, "default": 1.1
+    },
+    {
+      "type": "range",
+      "id": "heading_spacing",
+      "label": "Letter Spacing",
+      "min": -0.05, "max": 0.1, "step": 0.01, "default": -0.02, "unit": "em"
+    },
+    {
+      "type": "range",
+      "id": "label_size",
+      "label": "Label Size",
+      "min": 0.5, "max": 1, "step": 0.0625, "default": 0.625, "unit": "rem"
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size",
+      "label": "Subtitle Size",
+      "min": 0.75, "max": 1.25, "step": 0.0625, "default": 0.875, "unit": "rem"
+    },
+    {
+      "type": "header",
+      "content": "Buttons"
+    },
+    {
+      "type": "range",
+      "id": "button_size",
+      "label": "Button Text Size",
+      "min": 0.625, "max": 1, "step": 0.0625, "default": 0.75, "unit": "rem"
+    },
+    {
+      "type": "range",
+      "id": "button_padding_x",
+      "label": "Button Padding X",
+      "min": 1, "max": 3, "step": 0.25, "default": 1.5, "unit": "rem"
+    },
+    {
+      "type": "range",
+      "id": "button_padding_y",
+      "label": "Button Padding Y",
+      "min": 0.5, "max": 1.5, "step": 0.125, "default": 0.75, "unit": "rem"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "text_align",
+      "label": "Text Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "vertical_align",
+      "label": "Vertical Alignment",
+      "options": [
+        { "value": "top", "label": "Top" },
+        { "value": "center", "label": "Center" },
+        { "value": "bottom", "label": "Bottom" }
+      ],
+      "default": "top"
+    },
+    {
+      "type": "range",
+      "id": "content_width",
+      "label": "Content Max Width",
+      "min": 24, "max": 60, "step": 4, "default": 32, "unit": "rem"
+    },
+    {
+      "type": "range",
+      "id": "min_height",
+      "label": "Min Height",
+      "min": 0, "max": 100, "step": 10, "default": 0, "unit": "vh"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 20, "max": 150, "step": 10, "default": 40, "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 20, "max": 150, "step": 10, "default": 32, "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "label": "Border Radius",
+      "min": 0, "max": 20, "step": 2, "default": 4, "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Animation"
+    },
+    {
+      "type": "checkbox",
+      "id": "animate",
+      "label": "Enable Animations",
+      "default": true
     }
   ],
   "blocks": [
