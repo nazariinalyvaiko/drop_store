@@ -6,21 +6,13 @@
   <div class="container">
     <!-- Section Header -->
     <div class="collection-page__header">
-      <div class="section-divider">
-        <div class="section-divider__line section-divider__line--short"></div>
-        <span class="section-divider__text">COLLECTION</span>
-        <div class="section-divider__line section-divider__line--long"></div>
-      </div>
+      <!-- Removed section divider label: COLLECTION -->
       
       <h1 class="collection-page__title">
         {{ collection.title }}
       </h1>
       
-      <div class="section-divider">
-        <div class="section-divider__line section-divider__line--long"></div>
-        <span class="section-divider__text">{{ collection.products_count }}</span>
-        <div class="section-divider__line section-divider__line--short"></div>
-      </div>
+      <!-- Product count divider hidden on collection pages -->
     </div>
 
     {%- if collection.description != blank -%}
@@ -141,21 +133,44 @@
   .collection-page__sort {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 1rem;
   }
 
   .collection-page__sort-label {
-    font-size: 0.875rem;
-    color: rgba(0, 0, 0, 0.6);
+    font-size: 0.8125rem;
+    font-family: 'Space Grotesk', monospace;
+    color: rgba(0, 0, 0, 0.7);
     font-weight: 300;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
   }
 
   .collection-page__sort-select {
-    padding: 0.5rem 2rem 0.5rem 0.75rem;
-    font-size: 0.875rem;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    background: #fff;
+    padding: 0.625rem 2.5rem 0.625rem 1rem;
+    font-size: 0.8125rem;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    background: #fff url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="8" viewBox="0 0 12 8"><path fill="%23000" d="M6 8L0 0h12z"/></svg>') no-repeat right 0.75rem center;
+    background-size: 12px 8px;
+    background-color: #fff;
     cursor: pointer;
+    color: rgba(0, 0, 0, 0.8);
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    transition: all 0.2s ease;
+  }
+
+  .collection-page__sort-select:hover {
+    border-color: rgba(0, 0, 0, 0.4);
+    background-color: #f9f9f9;
+  }
+
+  .collection-page__sort-select:focus {
+    outline: none;
+    border-color: rgba(0, 0, 0, 0.6);
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.05);
   }
 
   .collection-page__grid {
