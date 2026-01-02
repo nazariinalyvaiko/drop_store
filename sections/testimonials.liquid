@@ -1,123 +1,269 @@
+<section class="testimonials" data-section-id="{{ section.id }}">
+  <div class="container">
+    <!-- Section Header -->
+    <div class="testimonials__header">
+      <div class="section-divider">
+        <div class="section-divider__line section-divider__line--short"></div>
+        <span class="section-divider__text">{{ section.settings.section_number | default: '03' }}</span>
+        <div class="section-divider__line section-divider__line--long"></div>
+      </div>
+      
+      <h2 class="testimonials__title">
+        {{ section.settings.heading | default: 'REVIEWS' }}
+      </h2>
+      
+      <div class="section-divider">
+        <div class="section-divider__line section-divider__line--long"></div>
+        <span class="section-divider__text">{{ section.blocks.size }}</span>
+        <div class="section-divider__line section-divider__line--short"></div>
+      </div>
+    </div>
+
+    <!-- Testimonials Grid -->
+    <div class="testimonials__grid">
+      {%- for block in section.blocks -%}
+        <div class="testimonial" {{ block.shopify_attributes }}>
+          <div class="testimonial__rating">
+            {%- assign rating = block.settings.rating | default: 5 -%}
+            {%- for i in (1..5) -%}
+              {%- if i <= rating -%}★{%- else -%}☆{%- endif -%}
+            {%- endfor -%}
+          </div>
+          <p class="testimonial__text">"{{ block.settings.text }}"</p>
+          <div class="testimonial__author">
+            <span class="testimonial__name">{{ block.settings.name }}</span>
+            <span class="testimonial__location">{{ block.settings.location }}</span>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
 {% style %}
   .testimonials {
-    padding: 6rem 0;
+    padding: 4rem 0;
     background: #fff;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
   }
 
-  /* Header */
   .testimonials__header {
-    margin-bottom: 4.5rem;
+    margin-bottom: 3rem;
   }
 
   .testimonials__title {
     text-align: center;
-    font-size: clamp(1.75rem, 3vw, 2.5rem);
-    font-family: 'Space Grotesk', sans-serif;
-    font-weight: 400;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
+    font-size: 1.5rem;
+    font-family: 'Space Grotesk', monospace;
+    font-weight: 300;
     color: #000;
-  }
-
-  /* Grid */
-  .testimonials__grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 3rem;
+    letter-spacing: 0.1em;
+    line-height: 1;
+    padding: 1.5rem 0;
   }
 
   @media (min-width: 768px) {
-    .testimonials__grid {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 4rem 3rem;
+    .testimonials__title {
+      font-size: 1.75rem;
     }
   }
 
-  @media (min-width: 1200px) {
+  .testimonials__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  @media (min-width: 640px) {
+    .testimonials__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
     .testimonials__grid {
       grid-template-columns: repeat(4, 1fr);
     }
   }
 
-  /* Testimonial */
   .testimonial {
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-    padding-top: 2rem;
-    border-top: 1px solid rgba(0, 0, 0, 0.08);
+    padding: 1.5rem;
+    background: #fafafa;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    transition: border-color 0.3s ease;
+  }
+
+  .testimonial:hover {
+    border-color: rgba(0, 0, 0, 0.2);
   }
 
   .testimonial__rating {
-    font-size: 0.75rem;
-    letter-spacing: 0.25em;
-    color: #000;
-    opacity: 0.85;
+    font-size: 0.875rem;
+    color: #f59e0b;
+    margin-bottom: 0.75rem;
+    letter-spacing: 0.1em;
   }
 
   .testimonial__text {
-    font-size: 0.95rem;
-    line-height: 1.8;
-    color: rgba(0, 0, 0, 0.75);
-    font-weight: 300;
-    quotes: "“" "”";
-  }
-
-  .testimonial__text::before {
-    content: open-quote;
-  }
-
-  .testimonial__text::after {
-    content: close-quote;
+    font-size: 0.8125rem;
+    color: rgba(0, 0, 0, 0.6);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    font-style: italic;
   }
 
   .testimonial__author {
-    margin-top: auto;
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
+    gap: 0.125rem;
   }
 
   .testimonial__name {
     font-size: 0.8125rem;
     font-weight: 500;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
     color: #000;
   }
 
   .testimonial__location {
     font-size: 0.6875rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
     color: rgba(0, 0, 0, 0.4);
   }
 
-  /* Divider */
+  /* Section Divider */
   .section-divider {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 1rem;
+    gap: 0.75rem;
   }
 
   .section-divider__line {
     height: 1px;
-    background: rgba(0, 0, 0, 0.15);
+    background: rgba(0, 0, 0, 0.1);
   }
 
   .section-divider__line--short {
-    width: 2rem;
+    width: 1.5rem;
   }
 
   .section-divider__line--long {
-    width: 6rem;
+    width: 4rem;
+  }
+
+  @media (min-width: 768px) {
+    .section-divider__line--short {
+      width: 2rem;
+    }
+
+    .section-divider__line--long {
+      width: 6rem;
+    }
   }
 
   .section-divider__text {
     font-size: 0.6875rem;
-    letter-spacing: 0.3em;
-    font-family: 'Space Grotesk', sans-serif;
-    color: rgba(0, 0, 0, 0.35);
+    font-family: 'Space Grotesk', monospace;
+    letter-spacing: 0.1em;
+    color: rgba(0, 0, 0, 0.3);
   }
 {% endstyle %}
+
+{% schema %}
+{
+  "name": "Testimonials",
+  "tag": "section",
+  "class": "section-testimonials",
+  "settings": [
+    {
+      "type": "text",
+      "id": "section_number",
+      "label": "Section Number",
+      "default": "03"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "REVIEWS"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": [
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "Alex K."
+        },
+        {
+          "type": "text",
+          "id": "location",
+          "label": "Location",
+          "default": "Kyiv, Ukraine"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Review Text",
+          "default": "Excellent quality and fast delivery. Very satisfied with the purchase!"
+        },
+        {
+          "type": "range",
+          "id": "rating",
+          "label": "Rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 5
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testimonials",
+      "blocks": [
+        {
+          "type": "testimonial",
+          "settings": {
+            "name": "Alex K.",
+            "location": "Kyiv, Ukraine",
+            "text": "Excellent quality and fast delivery. Very satisfied with the purchase!",
+            "rating": 4
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "name": "Maria S.",
+            "location": "London, UK",
+            "text": "Stylish packaging and product matches the description. Will order again!",
+            "rating": 5
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "name": "John D.",
+            "location": "New York, USA",
+            "text": "Great store with excellent customer service. Highly recommend!",
+            "rating": 5
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "name": "Sophie L.",
+            "location": "Paris, France",
+            "text": "The product exceeded my expectations. Very happy with my purchase!",
+            "rating": 4
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
