@@ -1,4 +1,229 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
-  "sections": {},
-  "order": []
+  "sections": {
+    "section_banner_NWdyAi": {
+      "type": "section-banner",
+      "name": "Banner",
+      "settings": {
+        "heading": "Special Offer",
+        "text": "Get 20% off your first order.",
+        "button_label": "Shop Now",
+        "button_link": "",
+        "text_align": "center",
+        "bg_color": "#000000",
+        "text_color": "#ffffff",
+        "overlay_opacity": 50,
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
+    "section_collection_list_3KNfiN": {
+      "type": "section-collection-list",
+      "blocks": {
+        "collection_QTEVLj": {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "title": "",
+            "text": ""
+          }
+        },
+        "collection_hTaAkn": {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "title": "",
+            "text": ""
+          }
+        },
+        "collection_qqKyfK": {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "title": "",
+            "text": ""
+          }
+        }
+      },
+      "block_order": [
+        "collection_QTEVLj",
+        "collection_hTaAkn",
+        "collection_qqKyfK"
+      ],
+      "name": "Collection List",
+      "settings": {
+        "heading": "Collections",
+        "columns": "3",
+        "bg_color": "#ffffff",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "featured_products_tmG7cT": {
+      "type": "featured-products",
+      "name": "Featured Products",
+      "settings": {
+        "section_number": "01",
+        "heading": "PRODUCTS",
+        "collection": "",
+        "products_to_show": 6,
+        "show_view_all": true,
+        "view_all_label": "VIEW ALL"
+      }
+    },
+    "section_image_text_AtEaYH": {
+      "type": "section-image-text",
+      "name": "Image + Text",
+      "settings": {
+        "image_position": "left",
+        "label": "About",
+        "heading": "Our Story",
+        "text": "<p>Share your brand story with customers.</p>",
+        "button_label": "Learn More",
+        "button_link": "",
+        "bg_color": "#ffffff",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "section_image_text_dJCJLy": {
+      "type": "section-image-text",
+      "name": "Image + Text",
+      "settings": {
+        "image_position": "right",
+        "label": "About",
+        "heading": "Our Story",
+        "text": "<p>Share your brand story with customers.</p>",
+        "button_label": "Learn More",
+        "button_link": "",
+        "bg_color": "#ffffff",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "section_image_text_qTqfXi": {
+      "type": "section-image-text",
+      "name": "Image + Text",
+      "settings": {
+        "image_position": "left",
+        "label": "About",
+        "heading": "Our Story",
+        "text": "<p>Share your brand story with customers.</p>",
+        "button_label": "Learn More",
+        "button_link": "",
+        "bg_color": "#ffffff",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "testimonials_JzKygW": {
+      "type": "testimonials",
+      "blocks": {
+        "testimonial_MpfYfE": {
+          "type": "testimonial",
+          "settings": {
+            "name": "Alex K.",
+            "location": "Kyiv, Ukraine",
+            "text": "Excellent quality and fast delivery. Very satisfied with the purchase!",
+            "rating": 4
+          }
+        },
+        "testimonial_KUVQTh": {
+          "type": "testimonial",
+          "settings": {
+            "name": "Maria S.",
+            "location": "London, UK",
+            "text": "Stylish packaging and product matches the description. Will order again!",
+            "rating": 5
+          }
+        },
+        "testimonial_U3zVRn": {
+          "type": "testimonial",
+          "settings": {
+            "name": "John D.",
+            "location": "New York, USA",
+            "text": "Great store with excellent customer service. Highly recommend!",
+            "rating": 5
+          }
+        },
+        "testimonial_3xd4CB": {
+          "type": "testimonial",
+          "settings": {
+            "name": "Sophie L.",
+            "location": "Paris, France",
+            "text": "The product exceeded my expectations. Very happy with my purchase!",
+            "rating": 4
+          }
+        }
+      },
+      "block_order": [
+        "testimonial_MpfYfE",
+        "testimonial_KUVQTh",
+        "testimonial_U3zVRn",
+        "testimonial_3xd4CB"
+      ],
+      "name": "Testimonials",
+      "settings": {
+        "section_number": "03",
+        "heading": "REVIEWS"
+      }
+    },
+    "section_faq_BCwMK4": {
+      "type": "section-faq",
+      "blocks": {
+        "question_TNXnUR": {
+          "type": "question",
+          "settings": {
+            "question": "How does shipping work?",
+            "answer": "<p>We ship worldwide via express delivery.</p>"
+          }
+        },
+        "question_WetAaK": {
+          "type": "question",
+          "settings": {
+            "question": "What is your return policy?",
+            "answer": "<p>30-day hassle-free returns on all orders.</p>"
+          }
+        },
+        "question_7UwtUQ": {
+          "type": "question",
+          "settings": {
+            "question": "How can I contact support?",
+            "answer": "<p>Email us at support@example.com</p>"
+          }
+        }
+      },
+      "block_order": [
+        "question_TNXnUR",
+        "question_WetAaK",
+        "question_7UwtUQ"
+      ],
+      "name": "FAQ",
+      "settings": {
+        "heading": "FAQ",
+        "text": "",
+        "bg_color": "#ffffff",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    }
+  },
+  "order": [
+    "section_banner_NWdyAi",
+    "section_collection_list_3KNfiN",
+    "featured_products_tmG7cT",
+    "section_image_text_AtEaYH",
+    "section_image_text_dJCJLy",
+    "section_image_text_qTqfXi",
+    "testimonials_JzKygW",
+    "section_faq_BCwMK4"
+  ]
 }

@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "type": "footer",
   "name": "Footer group",
@@ -8,20 +17,23 @@
         "menu-1": {
           "type": "menu",
           "settings": {
-            "heading": "Products"
+            "heading": "Products",
+            "menu": "main-menu"
           }
         },
         "menu-2": {
           "type": "menu",
           "settings": {
-            "heading": "Info"
+            "heading": "Info",
+            "menu": "customer-account-main-menu"
           }
         },
         "contact": {
           "type": "contact",
           "settings": {
             "heading": "Contact",
-            "email": "info@vaikostore.com"
+            "email": "info@vaikostore.com",
+            "phone": ""
           }
         },
         "tag-1": {
@@ -38,12 +50,20 @@
         },
         "tag-3": {
           "type": "tag",
+          "disabled": true,
           "settings": {
             "text": "Status"
           }
         }
       },
-      "block_order": ["menu-1", "menu-2", "contact", "tag-1", "tag-2", "tag-3"],
+      "block_order": [
+        "menu-1",
+        "menu-2",
+        "contact",
+        "tag-1",
+        "tag-2",
+        "tag-3"
+      ],
       "settings": {
         "logo_text_main": "VAIKO",
         "logo_text_sub": "STORE",
@@ -51,6 +71,7 @@
       }
     }
   },
-  "order": ["footer"]
+  "order": [
+    "footer"
+  ]
 }
-
