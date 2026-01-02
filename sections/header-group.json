@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "type": "header",
   "name": "Header group",
@@ -30,7 +39,12 @@
           }
         }
       },
-      "block_order": ["announcement-0", "announcement-1", "announcement-2", "announcement-3"],
+      "block_order": [
+        "announcement-0",
+        "announcement-1",
+        "announcement-2",
+        "announcement-3"
+      ],
       "settings": {
         "show_announcement": true
       }
@@ -40,10 +54,13 @@
       "settings": {
         "logo_text_main": "VAIKO",
         "logo_text_sub": "STORE",
-        "show_search": true
+        "menu": "main-menu",
+        "show_search": false
       }
     }
   },
-  "order": ["announcement-bar", "header"]
+  "order": [
+    "announcement-bar",
+    "header"
+  ]
 }
-
