@@ -79,6 +79,52 @@ button {
   }
 }
 
+/* ------------------------------------------------------------------------------ */
+/* Section title styling (consistent across blocks) */
+/* Matches example: uppercase, spaced, centered, decorative */
+.collection-page__title,
+.page-content__title,
+.contact-section__title,
+.about-us__title,
+.featured-products__title,
+.collection-list__title,
+.collection-banner__title,
+.search-page__title,
+.product-page__title,
+.testimonials__title,
+.related-products__title,
+.image-gallery__title,
+.video-section__title,
+.faq__title {
+  font-family: var(--font-heading-family, 'Space Grotesk'), monospace;
+  font-weight: 300;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  text-align: center;
+  color: #000;
+  margin: 0.5rem 0 1.25rem;
+  font-size: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .collection-page__title,
+  .page-content__title,
+  .contact-section__title,
+  .about-us__title,
+  .featured-products__title,
+  .collection-list__title,
+  .collection-banner__title,
+  .search-page__title,
+  .product-page__title,
+  .testimonials__title,
+  .related-products__title,
+  .image-gallery__title,
+  .video-section__title,
+  .faq__title {
+    font-size: 1.75rem;
+  }
+}
+
 img,
 video {
   max-width: 100%;

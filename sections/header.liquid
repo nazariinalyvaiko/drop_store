@@ -23,7 +23,7 @@
             {%- if pages.about -%}
               {%- assign link_href = pages.about.url -%}
             {%- else -%}
-              {%- assign link_href = link.url -%}
+              {%- assign link_href = '/pages/about' -%}
             {%- endif -%}
           {%- elsif link.url contains '/pages/about' or link.url contains '/pages/about-us' -%}
             {%- assign link_href = link.url -%}
@@ -84,7 +84,7 @@
           {%- if pages.about -%}
             {%- assign link_href = pages.about.url -%}
           {%- else -%}
-            {%- assign link_href = link.url -%}
+            {%- assign link_href = '/pages/about' -%}
           {%- endif -%}
         {%- elsif link.url contains '/pages/about' or link.url contains '/pages/about-us' -%}
           {%- assign link_href = link.url -%}
